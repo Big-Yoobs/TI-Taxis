@@ -6,6 +6,19 @@ void CommonFunctions::returnClearScreen() { //clears the screen by returning so 
 	std::cout << "\n\n\n"; //adding three return lines to make the next set of console outputs not at the complete top of the screen
 }
 
+void CommonFunctions::returnLine(int amount) {
+	for (int i = 0; i <= amount; i++) {
+		std::cout << "\n";
+	}
+}
+
+void CommonFunctions::createLine(char symbol, int amount) {
+	for (int i = 0; i <= amount; i++) {
+		std::cout << symbol;
+	}
+	std::cout << "\n";
+}
+
 bool CommonFunctions::userInput(bool isInt, bool isStr, bool isSymbol, int isIntMin, int isIntMax, int lengthAllowed) { //takes in a number of variables and returns whether it is acceptable or not
     correctInput = true;
     wrongInputCode = 0;
@@ -111,4 +124,21 @@ void CommonFunctions::continueInput(int selector) {
 	std::cin >> tempInput;
 	tempInput = "";
 	returnClearScreen();
+}
+
+
+
+
+//getters
+std::string CommonFunctions::getUserInput() {
+	return userInputStr;
+}
+std::string CommonFunctions::getAlphabet() {
+	return alphabet;
+}
+std::string CommonFunctions::getNumbers() {
+	return numbers;
+}
+std::string CommonFunctions::getSymbol() {
+	return symbol;
 }
