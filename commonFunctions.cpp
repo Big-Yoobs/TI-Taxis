@@ -23,7 +23,7 @@ bool CommonFunctions::userInput(bool isInt, bool isStr, bool isSymbol, int isInt
     correctInput = true;
     wrongInputCode = 0;
 
-    std::cout << "\n\nEnter Input: ";
+    std::cout << "\n\n\tEnter Input: ";
     std::cin >> userInputStr;
 
     if (size(userInputStr) > lengthAllowed) { //checking to see if the input is longer than what is acceptable
