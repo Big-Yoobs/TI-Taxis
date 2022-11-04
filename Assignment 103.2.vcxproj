@@ -141,9 +141,13 @@
   <ItemGroup>
     <ClCompile Include="Assignment 103.2.cpp" />
     <ClCompile Include="commonFunctions.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonFunctions.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="User.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

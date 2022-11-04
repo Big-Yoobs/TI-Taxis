@@ -11,11 +11,12 @@ class CommonFunctions
 
     public:
 
-    const std::string alphabet = "abcdefghijklmnopqrstuvwxyzABCEDFGHIJKLMNOPQRSTUVWXYZ"; //string of all characters in the alphabet, first lowercase then uppercase
+    const std::string alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; //string of all characters in the alphabet, first lowercase then uppercase
     const std::string symbol = "`~!@#$%^&*()_-+={}[]|\\:;'\",<.>/?"; //string of all symbols on a normal keyboard
     const std::string numbers = "0123456789"; //string of all numbers 0123456789
 
     //funcs
+
     void returnClearScreen(); //adds enough return lines to clear the screen
     void returnLine(int amount); //\n per amount
     void createLine(char symbol, int amount); //creates an ascii line, input symbol (example: '-'), and input the amount of dahses.

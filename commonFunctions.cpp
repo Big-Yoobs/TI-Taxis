@@ -108,7 +108,7 @@ void CommonFunctions::wrongInput(int errorCode) {
 
 }
 
-void CommonFunctions::continueInput(int selector) {
+void CommonFunctions::continueInput(int selector) { //gives a prompt to the user to enter any character to continue or go back 1 = continue 2 = go back
     std::string tempInput = "";
 	std::cout << "\n";
 
