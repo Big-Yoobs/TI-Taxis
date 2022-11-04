@@ -3,9 +3,16 @@
 
 void Menu::displayMenu(std::vector<std::string> menuItems) {
 
+    int menuItemNo = 0;
 	std::cout << "\n\n";
 	for (int i = 0; i < size(menuItems); i++) {
-		std::cout << "\t[" << i + 1 << "] " << menuItems[i] << "\n";
+        if (menuItems[i] == "$endl") {
+            std::cout << "\n";
+        }
+        else {
+            std::cout << "\t[" << menuItemNo + 1 << "] " << menuItems[i] << "\n";
+            menuItemNo++;
+        }
 	}
 }
 
@@ -16,7 +23,7 @@ void Menu::mainMenu() {
     while (!quit) {
         commonFuncs.returnClearScreen();
         std::cout << "\tMain Menu";
-        std::vector<std::string> mainMenu = { "Book a Trip", "Address Book", "{UserName}", "Exit" }; //main menu item vec
+        std::vector<std::string> mainMenu = { "Book a Trip", "Address Book", "{UserName}", "$endl", "Exit" }; //main menu item vec
         displayMenu(mainMenu); //displaying it
 
         if (commonFuncs.userInput(true, false, false, 1, 4, 1)) {
@@ -53,7 +60,7 @@ void Menu::userMenu() {
     while (!userMenuQuit) {
         commonFuncs.returnClearScreen();
         std::cout << "\tUserName";
-        std::vector<std::string> userMenu = { "Change User Details", "Trip History", "Report Missing Items", "Go Back" }; 
+        std::vector<std::string> userMenu = { "Change User Details", "Trip History", "Report Missing Items", "$endl", "Go Back" }; 
         displayMenu(userMenu);
 
         if (commonFuncs.userInput(true, false, false, 1, 4, 1)) {
