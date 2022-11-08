@@ -15,6 +15,7 @@ class CommonFunctions
 private:
 
 	bool controlMode; //if true we use the keyboard to navigate menus, else we use cin
+	bool quit;
 
 
 public:
@@ -52,6 +53,9 @@ public:
 
 	//check if str has alpha char
 	bool strHasAlphabet(std::string str);
+
+	//start screen
+	void startScreen();
 	
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,6 +66,7 @@ public:
 
 	void setControlMode(bool controlMode);
 	void toggleControlMode(); //if controlMode on turn it off and vice versa
+	void setQuit(bool quit);
 
 
 
@@ -69,6 +74,7 @@ public:
 	//functions to return the values of our private vars
 
 	bool getControlMode();
+	bool getQuit();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -84,8 +90,17 @@ public:
 	//takes in a string of text and outputs it in the console with a yellow background yellow text
 	void highlightText(std::string text);  
 
+	//turns on our highlight text colors (good for if you dont have a convenient string to input into highlightText(text)
+	void turnOnHighlight();
+
 	//outputs a string to the console centered
 	void centerGraphic(std::string graphic);
+
+	//outputs a string to the console vertically centered but Right aligned
+	void centerGraphicR(std::string graphic);
+
+	//outputs a string to the console in the top right corner
+	void displayGraphicRU(std::string graphic);
 
 	//returnsthe amount of white spaces needed to center a single line of text horizontally
 	int getCenterSpacesStr(std::string text);

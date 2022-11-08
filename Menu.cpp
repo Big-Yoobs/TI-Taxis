@@ -8,7 +8,7 @@ Menu::Menu(CommonFunctions& CommonFuncs, Graphics& Graphic) {
 
 //functions
 
-int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle, std::string menuGraphic, bool isVerticle, bool isGraphicCentered, bool isMenuCentered, bool isMenuTitleCentered, bool isAnimate, int back) {
+int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle, std::string menuGraphic, bool isVerticle, bool isGraphicCentered, bool isGraphicCenteredR, bool isDisplayGraphicRU, bool isMenuCentered, bool isMenuTitleCentered, bool isAnimate, int back) {
 
 	int menuItemSize = size(menuItems);
 
@@ -21,10 +21,16 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 			CommonFuncs->returnClearScreen(); //clearing the screen
 
 			if (menuGraphic != "") { //menu graphic
-				if (isGraphicCentered) { //centered
+				if (isGraphicCentered) { //centered 
 					CommonFuncs->centerGraphic(menuGraphic);
 				}
-				else { std::cout << menuGraphic; } //not centered
+				if (isGraphicCenteredR) { //centered vertically but right aligned (pick one!)
+					CommonFuncs->centerGraphicR(menuGraphic);
+				}
+				if (isDisplayGraphicRU) { //display the graphic in the top right corner (pick one!)
+					CommonFuncs->displayGraphicRU(menuGraphic);
+				}
+				if (!isGraphicCentered && !isGraphicCenteredR && !isDisplayGraphicRU) { std::cout << menuGraphic; } //not centered
 			}
 
 
@@ -223,24 +229,82 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 void Menu::mainMenu() {
 
 
-	switch (displayMenu({ "Book A Trip", "Address Book", "{UserName}", "Exit" }, "MAIN MENU", Graphic->main, false, true, true, true, false, -1)) {
+	switch (displayMenu({ "Book A Trip", "Address Book", "{UserName}", "Help", "Exit" }, "MAIN MENU", Graphic->main, false, true, false, false, true, true, false, -1)) {
 
-	case 1: //new game
-
-		break;
-
-	case 2: //load game
+	case 1: //Book a Trip
 
 		break;
 
-	case 3: //settings
-		//settingsMenu();
+	case 2: //Address Book
+
 		break;
 
-	case 4: //about
+	case 3: //{UserName}
+		userMenu();
+		break;
 
+	case 4: //Help
+
+		break;
+
+	case 5: //exit
+		CommonFuncs->setQuit(true);
 		break;
 	}
+
+}
+
+void Menu::userMenu() {
+	
+	bool userMenuOn = true;
+	while (userMenuOn) {
+
+		//Graphic->user1 make this dynamic with the actual user's portrait please
+		switch (displayMenu({ "Change User Details", "Settings", "Go Back" }, "{UserName}", Graphic->user1, true, false, false, true, false, false, true, 3)) {
+
+		case 1: //Change User Details
+			userDetailsMenu();
+			break;
+
+		case 2: //settings
+			settingsMenu();
+			break;
+
+		case 3: //Go Back
+			userMenuOn = false;
+			break;
+
+
+		}
+	}
+}
+
+void Menu::settingsMenu() {
+
+	bool settingsMenuOn = true;
+
+	while (settingsMenuOn) {
+
+		std::string controlModeStatus;
+		if (CommonFuncs->getControlMode()) { controlModeStatus = "Control"; }
+		else { controlModeStatus = "Cin"; }
+
+		switch (displayMenu({ "Change Control Mode (Currently: " + controlModeStatus + ")", "Go Back" }, "SETTINGS", Graphic->settings, true, false, false, true, false, false, false, 2)) {
+
+		case 1: //Change Control Mode
+			CommonFuncs->toggleControlMode();
+			break;
+
+		case 2: //Go Back
+			settingsMenuOn = false;
+			break;
+
+		}
+	}
+
+}
+
+void Menu::userDetailsMenu() {
 
 }
 

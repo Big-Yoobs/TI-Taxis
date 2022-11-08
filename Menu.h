@@ -16,9 +16,19 @@ public:
 
 	//functions
 
-	int displayMenu(std::vector<std::string> menuItems, std::string menuTitle, std::string menuGraphic, bool isVerticle, bool isGraphicCentered, bool isMenuCentered, bool isMenuTitleCentered, bool isAnimate, int back);
+	int displayMenu(std::vector<std::string> menuItems, std::string menuTitle, std::string menuGraphic, bool isVerticle, bool isGraphicCentered, bool isGraphicCenteredR, bool isDisplayGraphicRU, bool isMenuCentered, bool isMenuTitleCentered, bool isAnimate, int back);
 
+	//display the main menu
 	void mainMenu();
+
+	//display the user menu
+	void userMenu();
+
+	//display the user details menu
+	void userDetailsMenu();
+
+	//display the settings menu
+	void settingsMenu();
 
 
 

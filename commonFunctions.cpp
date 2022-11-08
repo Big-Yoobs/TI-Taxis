@@ -137,6 +137,24 @@ bool CommonFunctions::strHasAlphabet(std::string str) {
 	return false; //return false if it doesnt
 }
 
+//start screen
+void CommonFunctions::startScreen() {
+	
+	for (int i = 0; i < getCenterNLsStr(""); i++) {
+		std::cout << "\n";
+	}
+	for (int i = 0; i < getCenterSpacesStr("Press ALT + ENTER to Continue..."); i++) {
+		std::cout << " ";
+	}
+	std::cout << "Press ALT + ENTER to Continue...";
+	while (1) {
+		if (GetKeyState(VK_MENU) & 0x8000 && GetKeyState(VK_RETURN) & 0x8000) {
+			break;
+		}
+	}
+	returnClearScreen();
+
+}
 
 
 
@@ -162,12 +180,19 @@ void CommonFunctions::toggleControlMode() {
 	}
 }
 
+void CommonFunctions::setQuit(bool quit) {
+	this->quit = quit;
+}
 
 
 
 //getters
 bool CommonFunctions::getControlMode() {
 	return controlMode;
+}
+
+bool CommonFunctions::getQuit() {
+	return quit;
 }
 
 
@@ -191,6 +216,11 @@ void CommonFunctions::highlightText(std::string text) {
 	scrSetColors(scrBlack, scrYellow);
 	std::cout << text;
 	resetColors(); //resets colors back to our default
+}
+
+//turns on our highlight text colors (good for if you dont have a convenient string to input into highlightText(text)
+void CommonFunctions::turnOnHighlight() {
+	scrSetColors(scrBlack, scrYellow);
 }
 
 //outputs a string to the console centered
@@ -248,6 +278,118 @@ void CommonFunctions::centerGraphic(std::string graphic) {
 	}
 
 }
+
+void CommonFunctions::centerGraphicR(std::string graphic) {
+	int consoleHeight = scrGetMaxRows();
+	int consoleWidth = scrGetMaxColumns();
+	int textLinesAmount = 0; //lines of text
+	std::vector <int> charsInlineStart = { 0 }; //starting position in each line
+	std::vector <int> charsInline = { 0 };  //char amount in each line
+	int biggestLine = 0; //line in the graphic with the most chars
+
+	//counting the lines of text
+	for (int i = 0; i < size(graphic); i++) {
+		if (graphic[i] == '\n') {
+			textLinesAmount++;
+
+		}
+	}
+	//counter the amount of chars in each line
+	int charsInlineIndexer = 0;
+	for (int i = 0; i < size(graphic); i++) {
+		if (graphic[i] == '\n') {
+			charsInline.push_back((i - 1) - charsInlineIndexer);
+
+			charsInlineStart.push_back(i + 1);
+			charsInlineIndexer = i;
+		}
+	}
+	charsInline.erase(charsInline.begin()); // we remove the first element as we have to initialize our vec with a single 0 thats no longer necessary
+
+	for (int i = 0; i < size(charsInline); i++) { //going through our vector of char amount per line and finding the biggest one
+		if (charsInline[i] > biggestLine) {
+			biggestLine = charsInline[i];
+		}
+	}
+
+
+	//outputting to the console
+	int counter = 0; //counter that goes up in both i and j loops
+	for (int i = 0; i <= textLinesAmount; i++) {
+		//(height / 2) gives us the verticle center then we go up by half of the verticle size of our graphic then we go down by the value of i to return a line each run of our loop
+		//instead of doing the same horizontally we go to furthest right of the console minus the biggest line, minus a tab or so
+		scrMoveCursorTo((consoleHeight / 2) - (textLinesAmount / 2) + i, consoleWidth - biggestLine - 5);
+		for (int j = 0; j < biggestLine; j++) {
+			if (graphic[counter] != '\n') {
+				std::cout << graphic[counter];
+				counter++;
+			}
+			else { //if and else conditions used to skip line breaks as we are doing the line breaks with our scrMoveCursorTo arithmetic
+				counter++;
+				break;
+			}
+
+		}
+	}
+
+}
+
+//outputs a string to the console in the top right corner
+void CommonFunctions::displayGraphicRU(std::string graphic) {
+	int consoleHeight = scrGetMaxRows();
+	int consoleWidth = scrGetMaxColumns();
+	int textLinesAmount = 0; //lines of text
+	std::vector <int> charsInlineStart = { 0 }; //starting position in each line
+	std::vector <int> charsInline = { 0 };  //char amount in each line
+	int biggestLine = 0; //line in the graphic with the most chars
+
+	//counting the lines of text
+	for (int i = 0; i < size(graphic); i++) {
+		if (graphic[i] == '\n') {
+			textLinesAmount++;
+
+		}
+	}
+	//counter the amount of chars in each line
+	int charsInlineIndexer = 0;
+	for (int i = 0; i < size(graphic); i++) {
+		if (graphic[i] == '\n') {
+			charsInline.push_back((i - 1) - charsInlineIndexer);
+
+			charsInlineStart.push_back(i + 1);
+			charsInlineIndexer = i;
+		}
+	}
+	charsInline.erase(charsInline.begin()); // we remove the first element as we have to initialize our vec with a single 0 thats no longer necessary
+
+	for (int i = 0; i < size(charsInline); i++) { //going through our vector of char amount per line and finding the biggest one
+		if (charsInline[i] > biggestLine) {
+			biggestLine = charsInline[i];
+		}
+	}
+
+
+	//outputting to the console
+	int counter = 0; //counter that goes up in both i and j loops
+	for (int i = 0; i <= textLinesAmount; i++) {
+		//vertically we go down three lines to not be hugging the border and then we increment down with i
+		//instead of doing the same horizontally we go to furthest right of the console minus the biggest line, minus a tab or so
+		scrMoveCursorTo(3 + i, consoleWidth - biggestLine - 5);
+		for (int j = 0; j < biggestLine; j++) {
+			if (graphic[counter] != '\n') {
+				std::cout << graphic[counter];
+				counter++;
+			}
+			else { //if and else conditions used to skip line breaks as we are doing the line breaks with our scrMoveCursorTo arithmetic
+				counter = counter + 2;
+				break;
+			}
+
+		}
+	}
+
+}
+
 
 //returns amount of white spaces needed to center a single line of text horizontally
 int CommonFunctions::getCenterSpacesStr(std::string text) {

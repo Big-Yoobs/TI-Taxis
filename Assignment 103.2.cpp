@@ -37,7 +37,10 @@ int main() {
     //running the program
     CommonFuncs->resetColors();
     CommonFuncs->setControlMode(true);
-    while (1) {
+    CommonFuncs->setQuit(false);
+    CommonFuncs->startScreen();
+    CommonFuncs->showCursor(false);
+    while (!CommonFuncs->getQuit()) {
         menu.mainMenu();
     }
 
