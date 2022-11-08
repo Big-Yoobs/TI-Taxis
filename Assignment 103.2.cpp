@@ -9,7 +9,9 @@
 //
 
 #include "commonFunctions.h"
+#include "Graphics.h"
 #include "Menu.h"
+
 #include "ConfigFile.h"
 #include "Debug.h"
 
@@ -26,8 +28,18 @@ int main() {
     }
 
     //creating class instances
-    CommonFunctions * commonFuncs = new CommonFunctions;
-    Menu menu(* commonFuncs);
+    CommonFunctions * CommonFuncs = new CommonFunctions;
+    Graphics* Graphic = new Graphics;
+    Graphic->iniGraphics();
+    Menu menu(* CommonFuncs, * Graphic);
+
+
+    //running the program
+    CommonFuncs->resetColors();
+    CommonFuncs->setControlMode(true);
+    while (1) {
+        menu.mainMenu();
+    }
 
    
 

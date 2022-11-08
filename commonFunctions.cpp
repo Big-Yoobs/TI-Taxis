@@ -145,8 +145,8 @@ bool CommonFunctions::strHasAlphabet(std::string str) {
 void CommonFunctions::setControlMode(bool controlMode) {
 
 	this->controlMode = controlMode;
-	if (controlMode) { showCursor(true); }
-	else { showCursor(false); }
+	if (controlMode) { showCursor(false); }
+	else { showCursor(true); }
 
 }
 
@@ -234,7 +234,7 @@ void CommonFunctions::centerGraphic(std::string graphic) {
 		//(height / 2) gives us the verticle center then we go up by half of the verticle size of our graphic then we go down by the value of i to return a line each run of our loop
 		//we do the same with the width of our graphic but we dont need to return a line
 		scrMoveCursorTo((consoleHeight / 2) - (textLinesAmount / 2) + i, (consoleWidth / 2) - (biggestLine / 2)); 
-		for (int j = 0; j < biggestLine + 1; j++) {
+		for (int j = 0; j < biggestLine; j++) {
 			if (graphic[counter] != '\n') {
 				std::cout << graphic[counter];
 				counter++;

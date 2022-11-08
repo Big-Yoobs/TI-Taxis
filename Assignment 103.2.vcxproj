@@ -143,6 +143,7 @@
     <ClCompile Include="commonFunctions.cpp" />
     <ClCompile Include="ConfigFile.cpp" />
     <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
@@ -150,6 +151,7 @@
     <ClInclude Include="commonFunctions.h" />
     <ClInclude Include="ConfigFile.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="Graphics.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>
