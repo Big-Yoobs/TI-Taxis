@@ -5,17 +5,13 @@ class Menu
 {
 private:
 
-
 public:
 
+	//constructor
+	CommonFunctions* commonFuncs;
+	Menu(CommonFunctions& commonFuncs);
 
-	CommonFunctions commonFuncs;
 
-	void displayMenu(std::vector<std::string> menuItems);
-
-	void mainMenu();
-
-	void userMenu();
 
 
 };

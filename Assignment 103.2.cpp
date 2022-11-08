@@ -1,7 +1,13 @@
 #include <iostream>
 #include <vector>
 #include <string>
+
+//third party libs
 #include "libs/nlohmann/json.hpp"
+#include "libs/cscrutil/scrutil.h" //DO NOT INCLUDE THESE OUTSIDE OF THIS CPP & the commonFunctions.h (unless you know what you are doing)
+#include "libs/cscrutil/scrutil.c" //call scr funcs from the commonFuncs instance and write your own in the scr section of commonFunctions
+//
+
 #include "commonFunctions.h"
 #include "Menu.h"
 #include "ConfigFile.h"
@@ -20,10 +26,14 @@ int main() {
     }
 
     //creating class instances
-    CommonFunctions commonFuncs;
-    Menu menu;
+    CommonFunctions * commonFuncs = new CommonFunctions;
+    Menu menu(* commonFuncs);
 
-    menu.mainMenu(); 
+   
+
+
+
+     
 
 
 }
