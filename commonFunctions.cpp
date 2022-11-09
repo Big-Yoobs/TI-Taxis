@@ -353,7 +353,7 @@ void CommonFunctions::centerGraphicLineAnim(std::string graphic) {
 }
 
 //outputs a string to the console cnetered and animated line by line
-void CommonFunctions::centerGraphicLineAnim2(std::string graphic) {
+void CommonFunctions::centerGraphicLineAnim2(std::string graphic, int waitDuration) {
 
 	int consoleHeight = scrGetMaxRows();
 	int consoleWidth = scrGetMaxColumns();
@@ -397,28 +397,26 @@ void CommonFunctions::centerGraphicLineAnim2(std::string graphic) {
 		for (int i = 0; i <= a; i++) {
 			//(height / 2) gives us the verticle center then we go up by half of the verticle size of our graphic then we go down by the value of i to return a line each run of our loop
 			//we do the same with the width of our graphic but we dont need to return a line
-
+			std::string line = "";
 			scrMoveCursorTo((consoleHeight / 2) - (textLinesAmount / 2) + i, (consoleWidth / 2) - (biggestLine / 2));
 			if (a == i) { turnOnHighlight(); }
 			for (int j = 0; j < biggestLine; j++) {
-				if (graphic[counter] != '\n') {
-
-					std::cout << graphic[counter];
-					counter++;
-
+				if (graphic[counter++] != '\n') {
+					line += graphic[counter - 1]; // instead of printing each individual char to the console, we add them to a string and at the end we add the whole string to the console. less work for the console = faster
 				}
 				else { //if and else conditions used to skip line breaks as we are doing the line breaks with our scrMoveCursorTo arithmetic
-					counter++;
-
-					waitTime(10);
 					break;
 				}
-
 			}
-
+			std::cout << line;
 		}
+		waitTime(waitDuration); // fixed so we wait at the end of each frame instead of at the end of each line in each frame
 		resetColors();
 	}
+}
+
+void CommonFunctions::centerGraphicLineAnim2(std::string graphic) {
+	centerGraphicLineAnim2(graphic, 20);
 }
 
 // outputs a string to the console vertically centered but Right aligned

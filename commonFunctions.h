@@ -103,6 +103,7 @@ public:
 	void centerGraphicLineAnim(std::string graphic);
 
 	//outputs a string to the console centered and animated line by line w/ highlight
+	void centerGraphicLineAnim2(std::string graphic, int waitDuration);
 	void centerGraphicLineAnim2(std::string graphic);
 
 
