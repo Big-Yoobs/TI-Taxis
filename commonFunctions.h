@@ -93,8 +93,18 @@ public:
 	//turns on our highlight text colors (good for if you dont have a convenient string to input into highlightText(text)
 	void turnOnHighlight();
 
+	//outputs a screen transition animation using cout
+	void screenTransitionAnim();
+
 	//outputs a string to the console centered
 	void centerGraphic(std::string graphic);
+
+	//outputs a string to the console centered and animated line by line
+	void centerGraphicLineAnim(std::string graphic);
+
+	//outputs a string to the console centered and animated line by line w/ highlight
+	void centerGraphicLineAnim2(std::string graphic);
+
 
 	//outputs a string to the console vertically centered but Right aligned
 	void centerGraphicR(std::string graphic);

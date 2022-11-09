@@ -41,7 +41,10 @@ int main() {
     CommonFuncs->startScreen();
     CommonFuncs->showCursor(false);
     while (!CommonFuncs->getQuit()) {
+        
+        CommonFuncs->centerGraphicLineAnim2(Graphic->main);
         menu.mainMenu();
+
     }
 
    
