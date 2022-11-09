@@ -40,9 +40,10 @@ int main() {
     CommonFuncs->setQuit(false);
     CommonFuncs->startScreen();
     CommonFuncs->showCursor(false);
+    CommonFuncs->centerGraphicLineAnim2(Graphic->main, 100);
     while (!CommonFuncs->getQuit()) {
         
-        CommonFuncs->centerGraphicLineAnim2(Graphic->main);
+        
         menu.mainMenu();
 
     }

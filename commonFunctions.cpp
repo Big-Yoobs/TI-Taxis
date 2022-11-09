@@ -411,8 +411,11 @@ void CommonFunctions::centerGraphicLineAnim2(std::string graphic, int waitDurati
 			std::cout << line;
 		}
 		waitTime(waitDuration); // fixed so we wait at the end of each frame instead of at the end of each line in each frame
+		Beep(100, waitDuration + 100);
 		resetColors();
 	}
+	Beep(200, waitDuration + 100);
+	Beep(250, waitDuration + 500);
 }
 
 void CommonFunctions::centerGraphicLineAnim2(std::string graphic) {

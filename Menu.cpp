@@ -101,55 +101,70 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 					if (GetKeyState('W') & 0x8000) {
 						if (selectedMenuItem > 0) {
 							selectedMenuItem--;
+							Beep(200, 150);
 							break;
 						}
 						else if (selectedMenuItem == 0) {
 							selectedMenuItem = menuItemSize - 1;
+							Beep(200, 150);
 							break;
 						}
+						
 					}
 					else if (GetKeyState('S') & 0x8000) {
 						if (selectedMenuItem < menuItemSize - 1) {
 							selectedMenuItem++;
+							Beep(200, 150);
 							break;
 						}
 						else if (selectedMenuItem == menuItemSize - 1) {
 							selectedMenuItem = 0;
+							Beep(200, 150);
 							break;
 						}
+						
 					}
 				}
 				else {
 					if (GetKeyState('A') & 0x8000) {
 						if (selectedMenuItem > 0) {
 							selectedMenuItem--;
+							Beep(200, 150);
 							break;
 						}
 						else if (selectedMenuItem == 0) {
 							selectedMenuItem = menuItemSize - 1;
+							Beep(200, 150);
 							break;
 						}
+						
 					}
 					else if (GetKeyState('D') & 0x8000) {
 						if (selectedMenuItem < menuItemSize - 1) {
 							selectedMenuItem++;
+							Beep(200, 150);
 							break;
 						}
 						else if (selectedMenuItem == menuItemSize - 1) {
 							selectedMenuItem = 0;
+							Beep(200, 150);
 							break;
 						}
+						
 					}
 				}
 				if (GetKeyState(VK_RETURN) & 0x8000 || GetKeyState(VK_SPACE) & 0x8000) {
 					FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+					
 					return selectedMenuItem + 1;
 				}
 				else if (GetKeyState(VK_BACK) & 0x8000) {
 					FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+
 					if (back > 0) { return back; }
 				}
 			}
+			
 		}
 	}
 	else { //cin mode
@@ -232,22 +247,30 @@ void Menu::mainMenu() {
 	switch (displayMenu({ "Book A Trip", "Address Book", "{UserName}", "Help", "Exit" }, "MAIN MENU", Graphic->main, false, true, false, false, true, true, false, -1)) {
 
 	case 1: //Book a Trip
-
+		Beep(200, 150);
+		Beep(250, 600);
 		break;
 
 	case 2: //Address Book
-
+		Beep(200, 150);
+		Beep(250, 600);
 		break;
 
 	case 3: //{UserName}
+		Beep(200, 150);
+		Beep(250, 600);
 		userMenu();
 		break;
 
 	case 4: //Help
-
+		Beep(200, 150);
+		Beep(250, 600);
 		break;
 
 	case 5: //exit
+		Beep(200, 150);
+		Beep(150, 200);
+		Beep(100, 600);
 		CommonFuncs->setQuit(true);
 		break;
 	}
@@ -263,14 +286,21 @@ void Menu::userMenu() {
 		switch (displayMenu({ "Change User Details", "Settings", "Go Back" }, "{UserName}", Graphic->user1, true, false, false, true, false, false, true, 3)) {
 
 		case 1: //Change User Details
+			Beep(200, 150);
+			Beep(250, 600);
 			userDetailsMenu();
 			break;
 
 		case 2: //settings
+			Beep(200, 150);
+			Beep(250, 600);
 			settingsMenu();
 			break;
 
 		case 3: //Go Back
+			CommonFuncs->returnClearScreen();
+			Beep(200, 150);
+			Beep(150, 600);
 			userMenuOn = false;
 			break;
 
@@ -292,10 +322,14 @@ void Menu::settingsMenu() {
 		switch (displayMenu({ "Change Control Mode (Currently: " + controlModeStatus + ")", "Go Back" }, "SETTINGS", Graphic->settings, true, false, false, true, false, false, false, 2)) {
 
 		case 1: //Change Control Mode
+			Beep(200, 150);
+			Beep(250, 600);
 			CommonFuncs->toggleControlMode();
 			break;
 
 		case 2: //Go Back
+			Beep(200, 150);
+			Beep(150, 600);
 			settingsMenuOn = false;
 			break;
 
