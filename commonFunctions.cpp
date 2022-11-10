@@ -277,56 +277,25 @@ void CommonFunctions::screenTransitionAnim() {
 void CommonFunctions::centerGraphic(std::string graphic) {
 	int consoleHeight = scrGetMaxRows();
 	int consoleWidth = scrGetMaxColumns();
-	int textLinesAmount = 0; //lines of text
-	std::vector <int> charsInlineStart = { 0 }; //starting position in each line
-	std::vector <int> charsInline = { 0 };  //char amount in each line
-	int biggestLine = 0; //line in the graphic with the most chars
 
-	//counting the lines of text
+	std::vector<std::string> splitLines; // list of all lines
+	int longestLine = 0; // size of the longest line in image
+	std::string tempLine = "";
 	for (int i = 0; i < size(graphic); i++) {
-		if (graphic[i] == '\n') {
-			textLinesAmount++;
-
+		if (graphic[i] == '\n') { // end of line detected
+			splitLines.push_back(tempLine); // add line to list
+			if (size(tempLine) > longestLine) longestLine = size(tempLine); // check if this is the longest line
+			tempLine = ""; // reset line
+			continue; // skip adding character since it's \n
 		}
-	}
-	//counter the amount of chars in each line
-	int charsInlineIndexer = 0;
-	for (int i = 0; i < size(graphic); i++) {
-		if (graphic[i] == '\n') {
-			charsInline.push_back((i - 1) - charsInlineIndexer);
-
-			charsInlineStart.push_back(i + 1);
-			charsInlineIndexer = i;
-		}
-	}
-	charsInline.erase(charsInline.begin()); // we remove the first element as we have to initialize our vec with a single 0 thats no longer necessary
-
-	for (int i = 0; i < size(charsInline); i++) { //going through our vector of char amount per line and finding the biggest one
-		if (charsInline[i] > biggestLine) {
-			biggestLine = charsInline[i];
-		}
+		tempLine += graphic[i]; // character isn't special, add to current line
 	}
 
-
-	//outputting to the console
-	int counter = 0; //counter that goes up in both i and j loops
-	for (int i = 0; i <= textLinesAmount; i++) {
-		//(height / 2) gives us the verticle center then we go up by half of the verticle size of our graphic then we go down by the value of i to return a line each run of our loop
-		//we do the same with the width of our graphic but we dont need to return a line
-		scrMoveCursorTo((consoleHeight / 2) - (textLinesAmount / 2) + i, (consoleWidth / 2) - (biggestLine / 2)); 
-		for (int j = 0; j < biggestLine; j++) {
-			if (graphic[counter] != '\n') {
-				std::cout << graphic[counter];
-				counter++;
-			}
-			else { //if and else conditions used to skip line breaks as we are doing the line breaks with our scrMoveCursorTo arithmetic
-				counter++;
-				break;
-			}
-
-		}
+	for (int i = 0; i < splitLines.size(); i++) { // iterate through lines
+		std::string line = splitLines[i]; // get current line
+		scrMoveCursorTo((consoleHeight / 2) - (splitLines.size() / 2) + i, (consoleWidth / 2) - (longestLine / 2)); // place cursor at appropritate position for line
+		std::cout << line; // paste line
 	}
-
 }
 
 //outputs a string to the console cnetered and animated line by line
