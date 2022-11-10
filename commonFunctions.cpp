@@ -4,19 +4,6 @@
 
 //functions////////////////////////////////////////////////////////////////////////////////////
 
-//turns off and on the flashing underscore in the console
-void CommonFunctions::showCursor(bool cursorBool) {
-	//ref: https://stackoverflow.com/questions/18028808/remove-blinking-underscore-on-console-cmd-prompt
-	HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);  //windows only function
-
-	CONSOLE_CURSOR_INFO     cursorInfo;
-
-	GetConsoleCursorInfo(out, &cursorInfo);
-	cursorInfo.bVisible = cursorBool; // set the cursor visibility
-	SetConsoleCursorInfo(out, &cursorInfo);
-
-}
-
 //puts the thread to sleep the milliseconds entered
 void CommonFunctions::waitTime(int milliseconds) {
 	std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
@@ -60,7 +47,7 @@ void CommonFunctions::continueInput(int promptType) {
 	switch (promptType) {
 	case 1: //continue
 		
-		if (controlMode) { 
+		if (Settings::getControlMode()) { 
 			std::cout << "\tPress Accept to Continue.";
 			waitTime(500); //slight pause so we cant just instantly exit the func
 			while (1) { //stuck in loop until the user presses one of the buttons
@@ -83,7 +70,7 @@ void CommonFunctions::continueInput(int promptType) {
 
 	case 2: //back
 
-		if (controlMode) {
+		if (Settings::getControlMode()) {
 			std::cout << "\tPress Back to Return.";
 			waitTime(500); //slight pause so we cant just instantly exit the func
 			while (1) { //stuck in loop until the user presses one of the button
@@ -137,33 +124,12 @@ bool CommonFunctions::strHasAlphabet(std::string str) {
 	return false; //return false if it doesnt
 }
 
-//start screen
-void CommonFunctions::startScreen() {
-	
-	for (int i = 0; i < getCenterNLsStr(""); i++) {
-		std::cout << "\n";
-	}
-	for (int i = 0; i < getCenterSpacesStr("Press ALT + ENTER to Continue..."); i++) {
-		std::cout << " ";
-	}
-	std::cout << "Press ALT + ENTER to Continue...";
-	while (1) {
-		if (GetKeyState(VK_MENU) & 0x8000 && GetKeyState(VK_RETURN) & 0x8000) {
-			break;
-		}
-	}
-	returnClearScreen();
-	if (getControlMode()) { //hiding our cursor after going fullscreen
-		showCursor(false);
-	}
 
-
-}
 
 
 //acceptSound sfx that plays when you hit enter normally (this just plays the sound)
 void CommonFunctions::acceptSound() {
-	if (getSound()) { 
+	if (Settings::getSound()) { 
 		Beep(200, 150);
 		Beep(250, 600);
 	}
@@ -171,7 +137,7 @@ void CommonFunctions::acceptSound() {
 
 //Go back sound. Sound that plays when you 'go back' normally (this just plays the sound) 
 void CommonFunctions::negativeSound() {
-	if (getSound()) { 
+	if (Settings::getSound()) {
 		Beep(200, 150); 
 		Beep(150, 600);
 	}
@@ -179,61 +145,13 @@ void CommonFunctions::negativeSound() {
 
 //Movement sound. Sound that plays normally when you use the wasd keys to move (this just plays the sound)
 void CommonFunctions::movementSound() {
-	if (getSound()) { Beep(200, 150); }
+	if (Settings::getSound()) Beep(200, 150);
 }
 
 
 
 
-//setters
-void CommonFunctions::setControlMode(bool controlMode) {
 
-	this->controlMode = controlMode;
-	if (controlMode) { showCursor(false); }
-	else { showCursor(true); }
-
-}
-
-//if controlMode on turn it off and vice versa
-void CommonFunctions::toggleControlMode() {
-	if (controlMode) { 
-		controlMode = false;
-		showCursor(true);
-	}
-	else { 
-		controlMode = true; 
-		showCursor(false);
-	}
-}
-
-void CommonFunctions::setSound(bool sound) {
-	this->sound = sound;
-}
-
-//if sound is on turn it off and vice versa
-void CommonFunctions::toggleSound() {
-	if (sound) { sound = false; }
-	else { sound = true; }
-}
-
-void CommonFunctions::setQuit(bool quit) {
-	this->quit = quit;
-}
-
-
-
-//getters
-bool CommonFunctions::getControlMode() {
-	return controlMode;
-}
-
-bool CommonFunctions::getSound() {
-	return sound;
-}
-
-bool CommonFunctions::getQuit() {
-	return quit;
-}
 
 
 
@@ -599,8 +517,8 @@ int CommonFunctions::getCenterNLsVec(std::vector<std::string> textVec) {
 }
 
 std::string CommonFunctions::reCase(std::string input, bool uppercase) {
-	for (int i = 0; i < size(input); i++) {
-		input[i] = uppercase ? toupper(input[i]) : tolower(input[i]);
+	for (int i = 0; i < size(input); i++) { // iterate through all characters in string
+		input[i] = uppercase ? toupper(input[i]) : tolower(input[i]); // modify case of character
 	}
 	return input;
 }
@@ -636,17 +554,17 @@ long CommonFunctions::clamp(long value, long lower, long higher) {
 
 
 std::string CommonFunctions::formatDistance(long distance) {
-	if (distance < 1000) return distance + "m";
-	double newDistance = round(distance / 10) / 100;
-	int decimal = (int) (newDistance * 100) % 100;
-	std::string km = std::to_string((int) newDistance);
+	if (distance < 1000) return distance + "m"; // distance isn't 1km, display in meters
+	double newDistance = round(distance / 10) / 100; // reduce distance in km to 2 decimal places
+	int decimal = (int) (newDistance * 100) % 100; // store decimals in int
+	std::string km = std::to_string((int) newDistance); // store whole number
 	std::string out = "km";
 	if (decimal) {
-		out = "." + std::to_string(decimal) + out;
+		out = "." + std::to_string(decimal) + out; // decimals detected, add to output
 	}
-	for (int i = size(km) - 1; i >= 0; i--) {
+	for (int i = size(km) - 1; i >= 0; i--) { // iterate through all digits in whole number
 		out = km[i] + out;
-		if (!((size(km) - i) % 3) && i > 0) out = "," + out;
+		if (!((size(km) - i) % 3) && i > 0) out = "," + out; // after every third digit insert a comma
 	}
 	return out;
 }

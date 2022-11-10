@@ -5,4 +5,5 @@
 namespace Debug {
 	void out(std::string message); // sends debug message to console only if debug mode is enabled
 	void setDebug(bool newMode); // set debug mode
+	bool isOn(); // check if debug mode is on
 }

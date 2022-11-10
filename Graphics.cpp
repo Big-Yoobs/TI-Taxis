@@ -1,70 +1,24 @@
 #include "Graphics.h"
+#include <map>
 
+std::map<std::string, std::string> cachedGraphics;
 
-
-void Graphics::iniGraphics() {
+std::string Graphics::get(std::string id) {
+	if (cachedGraphics.count(id)) { // ASCII art is in the cache
+		std::map<std::string, std::string>::iterator iterator = cachedGraphics.find(id); // find ASCII art in cache
+		return iterator->second; // return value of pair (key is filename, value is art)
+	}
 	std::ifstream file;
 	std::stringstream fileData;
-	
-	//main.ascii
-	file.open("data/ASCII/main.ascii");
-	if (file.is_open()) {
-		fileData << file.rdbuf();
-		file.close();
-		main = fileData.str();
-		fileData.str("");
+	file.open("./data/ASCII/" + id + ".ascii");
+	if (!file.is_open()) { // ASCII art file does not exist
+		Debug::out("Couldn't open ASCII file \"data/ASCII/" + id + ".ascii\"");
+		return "";
 	}
-	else { Debug::out("data/ASCII/main.ascii\nfailed to open"); }
-
-	//login.ascii
-	file.open("data/ASCII/login.ascii");
-	if (file.is_open()) {
-		fileData << file.rdbuf();
-		file.close();
-		login = fileData.str();
-		fileData.str("");
-	}
-	else { Debug::out("data/ASCII/login.ascii\nfailed to open"); }
-
-
-	//settings.ascii
-	file.open("data/ASCII/settings.ascii");
-	if (file.is_open()) {
-		fileData << file.rdbuf();
-		file.close();
-		settings = fileData.str();
-		fileData.str("");
-	}
-	else { Debug::out("data/ASCII/settings.ascii\nfailed to open"); }
-
-	//user1.ascii
-	file.open("data/ASCII/user1.ascii");
-	if (file.is_open()) {
-		fileData << file.rdbuf();
-		file.close();
-		user1 = fileData.str();
-		fileData.str("");
-	}
-	else { Debug::out("data/ASCII/user1.ascii\nfailed to open"); }
-
-	//user2.ascii
-	file.open("data/ASCII/user2.ascii");
-	if (file.is_open()) {
-		fileData << file.rdbuf();
-		file.close();
-		user2 = fileData.str();
-		fileData.str("");
-	}
-	else { Debug::out("data/ASCII/user2.ascii\nfailed to open"); }
-
-	//user3.ascii
-	file.open("data/ASCII/user3.ascii");
-	if (file.is_open()) {
-		fileData << file.rdbuf();
-		file.close();
-		user3 = fileData.str();
-		fileData.str("");
-	}
-	else { Debug::out("data/ASCII/user3.ascii\nfailed to open"); }
-
+	fileData << file.rdbuf(); // pipe file buffer to stringStream to close file quickly
+	file.close();
+	std::string out = fileData.str(); // convert stringStream to string
+	cachedGraphics.insert(std::pair<std::string, std::string>(id, out)); // add located ASCII art to cache
+	fileData.str(""); // idfk. -I
+	return out;
 }

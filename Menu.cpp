@@ -1,10 +1,6 @@
 #include "Menu.h"
-
-//Constructor
-Menu::Menu(CommonFunctions& CommonFuncs, Graphics& Graphic) {
-	this->CommonFuncs = &CommonFuncs;
-	this->Graphic = &Graphic;
-}
+#include "Settings.h"
+#include "CommonFunctions.h"
 
 //functions
 
@@ -14,21 +10,21 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 
 	int selectedMenuItem = 0;
 	std::string selectedMenuItemStr;
-	if (CommonFuncs->getControlMode()) {
+	if (Settings::getControlMode()) {
 		bool inMenu = true;
 		while (inMenu) {
 
-			CommonFuncs->returnClearScreen(); //clearing the screen
+			CommonFunctions::returnClearScreen(); //clearing the screen
 
 			if (menuGraphic != "") { //menu graphic
 				if (isGraphicCentered) { //centered 
-					CommonFuncs->centerGraphic(menuGraphic);
+					CommonFunctions::centerGraphic(menuGraphic);
 				}
 				if (isGraphicCenteredR) { //centered vertically but right aligned (pick one!)
-					CommonFuncs->centerGraphicR(menuGraphic);
+					CommonFunctions::centerGraphicR(menuGraphic);
 				}
 				if (isDisplayGraphicRU) { //display the graphic in the top right corner (pick one!)
-					CommonFuncs->displayGraphicRU(menuGraphic);
+					CommonFunctions::displayGraphicRU(menuGraphic);
 				}
 				if (!isGraphicCentered && !isGraphicCenteredR && !isDisplayGraphicRU) { std::cout << menuGraphic; } //not centered
 			}
@@ -37,7 +33,7 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 			if (menuTitle != "") { //menu title
 				std::cout << "\n\n\n";
 				if (isMenuTitleCentered) { //centered horizontally
-					int titleSpaces = CommonFuncs->getCenterSpacesStr(menuTitle);
+					int titleSpaces = CommonFunctions::getCenterSpacesStr(menuTitle);
 					for (int i = 0; i < titleSpaces; i++) {
 						std::cout << " ";
 					}
@@ -53,31 +49,31 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 			std::cout << "\n\n"; //menu display
 			int menuSpacesV = 0;
 			if (!isVerticle && isMenuCentered) { //horizontal
-				int menuSpacesH = CommonFuncs->getCenterSpacesVec(menuItems);
+				int menuSpacesH = CommonFunctions::getCenterSpacesVec(menuItems);
 				for (int i = 0; i < menuSpacesH; i++) { std::cout << " "; }
 			}
 			if (!isVerticle && !isMenuCentered) { std::cout << "\t"; }
 			if (isVerticle && isMenuCentered) { //verticle
 
-				menuSpacesV = CommonFuncs->getCenterSpacesStr(menuItems[0]);
+				menuSpacesV = CommonFunctions::getCenterSpacesStr(menuItems[0]);
 				for (int i = 0; i < menuSpacesV; i++) { std::cout << " "; }
 			}
 
 			for (int i = 0; i < menuItemSize; i++) {
 				if (i == selectedMenuItem) {
 					if (isVerticle && isMenuCentered) {
-						menuSpacesV = CommonFuncs->getCenterSpacesStr(menuItems[i]);
+						menuSpacesV = CommonFunctions::getCenterSpacesStr(menuItems[i]);
 						if (i != 0) {
 							for (int i = 0; i < menuSpacesV; i++) { std::cout << " "; }
 						}
 					}
 					if (isVerticle && !isMenuCentered && isAnimate) { std::cout << "\t"; }
 					if (isVerticle && !isMenuCentered) { std::cout << "\t"; }
-					CommonFuncs->highlightText(menuItems[i]);
+					CommonFunctions::highlightText(menuItems[i]);
 				}
 				else {
 					if (isVerticle && isMenuCentered) {
-						menuSpacesV = CommonFuncs->getCenterSpacesStr(menuItems[i]);
+						menuSpacesV = CommonFunctions::getCenterSpacesStr(menuItems[i]);
 						if (i != 0) {
 							for (int i = 0; i < menuSpacesV; i++) { std::cout << " "; }
 						}
@@ -95,19 +91,19 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 
 
 
-			//CommonFuncs->waitTime(200);
+			//CommonFunctions::waitTime(200);
 			while (1) {
 				if (isVerticle) {
 					if (GetKeyState('W') & 0x8000) {
 						while (GetKeyState('W') & 0x8000) {}
 						if (selectedMenuItem > 0) {
 							selectedMenuItem--;
-							CommonFuncs->movementSound();
+							CommonFunctions::movementSound();
 							break;
 						}
 						else if (selectedMenuItem == 0) {
 							selectedMenuItem = menuItemSize - 1;
-							CommonFuncs->movementSound();
+							CommonFunctions::movementSound();
 							break;
 						}
 						
@@ -116,12 +112,12 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 						while (GetKeyState('S') & 0x8000) {}
 						if (selectedMenuItem < menuItemSize - 1) {
 							selectedMenuItem++;
-							CommonFuncs->movementSound();
+							CommonFunctions::movementSound();
 							break;
 						}
 						else if (selectedMenuItem == menuItemSize - 1) {
 							selectedMenuItem = 0;
-							CommonFuncs->movementSound();
+							CommonFunctions::movementSound();
 							break;
 						}
 						
@@ -132,12 +128,12 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 						while (GetKeyState('A') & 0x8000) {}
 						if (selectedMenuItem > 0) {
 							selectedMenuItem--;
-							CommonFuncs->movementSound();
+							CommonFunctions::movementSound();
 							break;
 						}
 						else if (selectedMenuItem == 0) {
 							selectedMenuItem = menuItemSize - 1;
-							CommonFuncs->movementSound();
+							CommonFunctions::movementSound();
 							break;
 						}
 						
@@ -146,12 +142,12 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 						while (GetKeyState('D') & 0x8000) {}
 						if (selectedMenuItem < menuItemSize - 1) {
 							selectedMenuItem++;
-							CommonFuncs->movementSound();
+							CommonFunctions::movementSound();
 							break;
 						}
 						else if (selectedMenuItem == menuItemSize - 1) {
 							selectedMenuItem = 0;
-							CommonFuncs->movementSound();
+							CommonFunctions::movementSound();
 							break;
 						}
 						
@@ -176,11 +172,11 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 	else { //cin mode
 		while (1) {
 
-			CommonFuncs->returnClearScreen();
+			CommonFunctions::returnClearScreen();
 
 			if (menuGraphic != "") { //menu graphic
 				if (isGraphicCentered) { //centered
-					CommonFuncs->centerGraphic(menuGraphic);
+					CommonFunctions::centerGraphic(menuGraphic);
 				}
 				else { std::cout << menuGraphic; } //not centered
 			}
@@ -188,7 +184,7 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 			if (menuTitle != "") { //menu title
 				std::cout << "\n\n\n";
 				if (isMenuTitleCentered) { //centered horizontally
-					int titleSpaces = CommonFuncs->getCenterSpacesStr(menuTitle);
+					int titleSpaces = CommonFunctions::getCenterSpacesStr(menuTitle);
 					for (int i = 0; i < titleSpaces; i++) {
 						std::cout << " ";
 					}
@@ -204,7 +200,7 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 			int menuSpacesHD;
 			if (!isMenuCentered) { std::cout << "\t"; } //tabbing first element in our menu
 			if (isMenuCentered && !isVerticle) {
-				menuSpacesHD = (CommonFuncs->getCenterSpacesVec(menuItems) - size(menuItems) - size(menuItems));
+				menuSpacesHD = (CommonFunctions::getCenterSpacesVec(menuItems) - size(menuItems) - size(menuItems));
 				for (int i = 0; i < menuSpacesHD; i++) { std::cout << " "; }
 			}
 			for (int i = 0; i < size(menuItems); i++) {
@@ -216,7 +212,7 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 						std::string menuItemsZeroes = std::to_string(size(menuItems));
 						int menuSpacesVDSUB = 4 * size(menuItemsZeroes);
 						for (int i = 0; i < size(menuItems); i++) {
-							if (CommonFuncs->getCenterSpacesStr(menuItems[i]) > menuSpacesVD) { menuSpacesVD = CommonFuncs->getCenterSpacesStr(menuItems[i]); }
+							if (CommonFunctions::getCenterSpacesStr(menuItems[i]) > menuSpacesVD) { menuSpacesVD = CommonFunctions::getCenterSpacesStr(menuItems[i]); }
 						}
 						menuSpacesVD = menuSpacesVD - menuSpacesVDSUB;
 						for (int i = 0; i < menuSpacesVD + 1; i++) { std::cout << " "; }
@@ -229,12 +225,12 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 			std::cout << "\n\n\tEnter Input: ";
 			std::cin >> selectedMenuItemStr;
 
-			if (CommonFuncs->strHasAlphabet(selectedMenuItemStr) || CommonFuncs->strHasSymbol(selectedMenuItemStr)) {
-				CommonFuncs->wrongInput(2);
+			if (CommonFunctions::strHasAlphabet(selectedMenuItemStr) || CommonFunctions::strHasSymbol(selectedMenuItemStr)) {
+				CommonFunctions::wrongInput(2);
 			}
 			else {
 				if (std::stoi(selectedMenuItemStr) < 1 || std::stoi(selectedMenuItemStr) > size(menuItems)) { //wrongInput
-					CommonFuncs->wrongInput(2);
+					CommonFunctions::wrongInput(2);
 
 				}
 				else {
@@ -254,28 +250,28 @@ void Menu::iniLoginMenu() {
 	while (iniLoginMenuLoop) {
 
 
-		switch (displayMenu({ "Login", "Sign Up", "Exit" }, "BALLS TAXIS", Graphic->login, true, true, false, false, true, true, false, 3)) {
+		switch (displayMenu({ "Login", "Sign Up", "Exit" }, "BALLS TAXIS", Graphics::get("login"), true, true, false, false, true, true, false, 3)) {
 
 		case 1: //login
 			loginMenu();
-			CommonFuncs->setQuit(false);
+			Settings::setQuit(false);
 			iniLoginMenuLoop = false;
 			break;
 
 		case 2: //sign up
 			signUpMenu();
-			CommonFuncs->setQuit(false);
+			Settings::setQuit(false);
 			iniLoginMenuLoop = false;
 			break;
 
 		case 3: //Exit
-			CommonFuncs->setQuit(true);
+			Settings::setQuit(true);
 			iniLoginMenuLoop = false;
 			break;
 
 		}
 	}
-	CommonFuncs->returnClearScreen();
+	CommonFunctions::returnClearScreen();
 }
 
 void Menu::signUpMenu() {
@@ -293,30 +289,30 @@ void Menu::loginMenu() {
 void Menu::mainMenu() {
 
 
-	switch (displayMenu({ "Book A Trip", "Address Book", "{UserName}", "Help", "Exit" }, "MAIN MENU", Graphic->main, false, true, false, false, true, true, false, -1)) {
+	switch (displayMenu({ "Book A Trip", "Address Book", "{UserName}", "Help", "Exit" }, "MAIN MENU", Graphics::get("main"), false, true, false, false, true, true, false, -1)) {
 
 	case 1: //Book a Trip
-		CommonFuncs->acceptSound();
+		CommonFunctions::acceptSound();
 		break;
 
 	case 2: //Address Book
-		CommonFuncs->acceptSound();
+		CommonFunctions::acceptSound();
 		break;
 
 	case 3: //{UserName}
-		CommonFuncs->acceptSound();
+		CommonFunctions::acceptSound();
 		userMenu();
 		break;
 
 	case 4: //Help
-		CommonFuncs->acceptSound();
+		CommonFunctions::acceptSound();
 		break;
 
 	case 5: //exit
 		Beep(200, 150);
 		Beep(150, 200);
 		Beep(100, 600);
-		CommonFuncs->setQuit(true);
+		Settings::setQuit(true);
 		break;
 	}
 
@@ -328,21 +324,21 @@ void Menu::userMenu() {
 	while (userMenuOn) {
 
 		//Graphic->user1 make this dynamic with the actual user's portrait please
-		switch (displayMenu({ "Change User Details", "Settings", "Go Back" }, "{UserName}", Graphic->user1, true, false, false, true, false, false, true, 3)) {
+		switch (displayMenu({ "Change User Details", "Settings", "Go Back" }, "{UserName}", Graphics::get("user1"), true, false, false, true, false, false, true, 3)) {
 
 		case 1: //Change User Details
-			CommonFuncs->acceptSound();
+			CommonFunctions::acceptSound();
 			userDetailsMenu();
 			break;
 
 		case 2: //settings
-			CommonFuncs->acceptSound();
+			CommonFunctions::acceptSound();
 			settingsMenu();
 			break;
 
 		case 3: //Go Back
-			CommonFuncs->returnClearScreen();
-			CommonFuncs->negativeSound();
+			CommonFunctions::returnClearScreen();
+			CommonFunctions::negativeSound();
 			userMenuOn = false;
 			break;
 
@@ -359,30 +355,52 @@ void Menu::settingsMenu() {
 
 		std::string controlModeStatus;
 		std::string soundStatus;
-		if (CommonFuncs->getControlMode()) { controlModeStatus = "Control"; }
+		if (Settings::getControlMode()) { controlModeStatus = "Control"; }
 		else { controlModeStatus = "Cin"; }
-		if (CommonFuncs->getSound()) { soundStatus = "On"; }
+		if (Settings::getSound()) { soundStatus = "On"; }
 		else { soundStatus = "Off"; }
 
-		switch (displayMenu({ "Change Control Mode (Currently: " + controlModeStatus + ")", "Sound (Currently: " + soundStatus + ")", "Go Back" }, "SETTINGS", Graphic->settings, true, false, false, true, false, false, false, 3)) {
+		switch (displayMenu({ "Change Control Mode (Currently: " + controlModeStatus + ")", "Sound (Currently: " + soundStatus + ")", "Go Back" }, "SETTINGS", Graphics::get("settings"), true, false, false, true, false, false, false, 3)) {
 
 		case 1: //Change Control Mode
-			CommonFuncs->acceptSound();
-			CommonFuncs->toggleControlMode();
+			CommonFunctions::acceptSound();
+			Settings::toggleControlMode();
 			break;
 
 		case 2: //toggle sound
-			CommonFuncs->toggleSound();
-			CommonFuncs->acceptSound();
+			Settings::toggleSound();
+			CommonFunctions::acceptSound();
 			break;
 
 		case 3: //Go Back
-			CommonFuncs->negativeSound();
+			CommonFunctions::negativeSound();
 			settingsMenuOn = false;
 			break;
 
 		}
 	}
+
+}
+
+void Menu::startScreen() {
+
+	for (int i = 0; i < CommonFunctions::getCenterNLsStr(""); i++) {
+		std::cout << "\n";
+	}
+	for (int i = 0; i < CommonFunctions::getCenterSpacesStr("Press ALT + ENTER to Continue..."); i++) {
+		std::cout << " ";
+	}
+	std::cout << "Press ALT + ENTER to Continue...";
+	while (1) {
+		if (GetKeyState(VK_MENU) & 0x8000 && GetKeyState(VK_RETURN) & 0x8000) {
+			break;
+		}
+	}
+	CommonFunctions::returnClearScreen();
+	if (Settings::getControlMode()) { //hiding our cursor after going fullscreen
+		Settings::showCursor(false);
+	}
+
 
 }
 

@@ -1,5 +1,5 @@
 #include "Trip.h"
-#include "commonFunctions.h"
+#include "CommonFunctions.h"
 #include "Debug.h"
 #include <iostream>
 

@@ -6,34 +6,20 @@
 #include <string>
 #include <thread>
 #include <chrono>
+
+#include "Settings.h"
+
 //third party lib
 #include "libs/cscrutil/scrutil.h" //DO NOT INCLUDE THIS OUTSIDE OF THIS .h OR THE MAIN CPP (unless you know what you are doing)
 //call scr funcs from the commonFuncs instance and write your own in the scr section of commonFunctions
 
-class CommonFunctions
-{
-private:
-
-	bool controlMode; //if true we use the keyboard to navigate menus, else we use cin
-	bool sound; //if true sfx will play
-	bool quit;
-
-
-public:
-
+namespace CommonFunctions {
 	//public vars//////////////////////////////////////////////////////////////////////////////////////////
 	const std::string alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; //the entire alphabet in a string first starting with lowercase then uppercase
 	const std::string symbol = "`~!@#$%^&*()_-+={}[]|\\:;'\",<.>/?"; //all symbols on a normal kayboard in a string
 	const std::string numbers = "0123456789"; //all numbers in a string (0123456789)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	
-	
-	
-	//functions/////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	//turns off and on the flashing cursor in the console
-	void showCursor(bool cursorBool); //taken from here https://stackoverflow.com/questions/18028808/remove-blinking-underscore-on-console-cmd-prompt
 
 	//puts the thread to sleep the milliseconds entered
 	void waitTime(int milliseconds);
@@ -55,9 +41,6 @@ public:
 	//check if str has alpha char
 	bool strHasAlphabet(std::string str);
 
-	//start screen
-	void startScreen();
-
 	//acceptSound sfx that plays when you hit enter normally (this just plays the sound)
 	void acceptSound();
 
@@ -71,26 +54,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		
-	//setters////////////////////////////////////////////////////////////////////////////////////////////////////
-	//functions to access our private vars
-
-	void setControlMode(bool controlMode);
-	void toggleControlMode(); //if controlMode on turn it off and vice versa
-	void setSound(bool sound);
-	void toggleSound(); //if sound is on turn it off and vice versa
-	void setQuit(bool quit);
 	
-
-
-
-	//getters//////////////////////////////////////////////////////////////////////////////////////////////////////
-	//functions to return the values of our private vars
-
-	bool getControlMode();
-	bool getSound();
-	bool getQuit();
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//scrFunctions///////////////////////////////////////////////////////////////////////////////////////////////////
 	// this is a set of functions to interact with the cscutil lib
@@ -139,20 +103,29 @@ public:
 	//returns the amount of \n's needed to center verticle vector
 	int getCenterNLsVec(std::vector<std::string> textVec);
 
-	static std::string reCase(std::string input, bool uppercase); // change case of string
 
-	static std::string upperCase(std::string input); // convert strng to uppercase
-
-	static std::string lowerCase(std::string input); // convert string to lowercase
-
-
-
-	static int clamp(int value, int lower, int higher); // clamp value between two extremes
-
-	static double clamp(double value, double lower, double higher); // clamp value between two extremes
-
-	static long clamp(long value, long lower, long higher); // clamp value between two extremes
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	 
+	 
+	 
+	 
+	//genericFunctions////////////////////////////////////////////////////////////////////////////////////////////////
+	// these functions are for random QoL improvements
 
 
-	static std::string formatDistance(long distance); // format distance nicely
+	std::string reCase(std::string input, bool uppercase); // change case of string
+
+	std::string upperCase(std::string input); // convert strng to uppercase
+
+	std::string lowerCase(std::string input); // convert string to lowercase
+
+
+	int clamp(int value, int lower, int higher); // clamp value between two extremes
+
+	double clamp(double value, double lower, double higher); // clamp value between two extremes
+
+	long clamp(long value, long lower, long higher); // clamp value between two extremes
+
+
+	std::string formatDistance(long distance); // format distance nicely
 };

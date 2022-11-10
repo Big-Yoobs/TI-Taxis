@@ -8,8 +8,7 @@
 #include "libs/cscrutil/scrutil.c" //call scr funcs from the commonFuncs instance and write your own in the scr section of commonFunctions
 
 
-#include "commonFunctions.h"
-#include "Graphics.h"
+#include "CommonFunctions.h"
 #include "Menu.h"
 
 #include "TripManager.h"
@@ -30,39 +29,20 @@ int main() {
 
     TripManager tripManager("trips.json", "CoolUser");
 
-    //return 0;
-
-    //creating class instances
-    CommonFunctions * CommonFuncs = new CommonFunctions;
-    Graphics* Graphic = new Graphics;
-    Graphic->iniGraphics();
-    Menu menu(* CommonFuncs, * Graphic);
-
 
     //running the program
-    CommonFuncs->resetColors();
+    CommonFunctions::resetColors();
 
-    CommonFuncs->setControlMode(true); //this should be aquired through the userSettings json
-    CommonFuncs->setSound(true); //this should be aquired through the userSettings json
+    Settings::setControlMode(true); //this should be aquired through the userSettings json
+    Settings::setSound(true); //this should be aquired through the userSettings json
     
-    CommonFuncs->startScreen();
+    Menu::startScreen();
 
-    menu.iniLoginMenu();
+    Menu::iniLoginMenu();
     
-    CommonFuncs->setQuit(false);
-    CommonFuncs->centerGraphicLineAnim2(Graphic->main, 100); //animation
-    while (!CommonFuncs->getQuit()) {
-        
-        
-        menu.mainMenu();
-
+    Settings::setQuit(false);
+    CommonFunctions::centerGraphicLineAnim2(Graphics::get("main"), 20); //animation
+    while (!Settings::getQuit()) {
+        Menu::mainMenu();
     }
-
-   
-
-
-
-     
-
-
 }
