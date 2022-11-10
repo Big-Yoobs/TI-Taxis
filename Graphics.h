@@ -15,6 +15,9 @@ public:
 	//main.ascii
 	std::string main;
 
+	//login.ascii
+	std::string login;
+
 	//settings.ascii
 	std::string settings;
 

@@ -18,6 +18,13 @@ public:
 
 	int displayMenu(std::vector<std::string> menuItems, std::string menuTitle, std::string menuGraphic, bool isVerticle, bool isGraphicCentered, bool isGraphicCenteredR, bool isDisplayGraphicRU, bool isMenuCentered, bool isMenuTitleCentered, bool isAnimate, int back);
 
+	//initial login and sign up menu 
+	void iniLoginMenu();
+
+	void signUpMenu();
+
+	void loginMenu();
+
 	//display the main menu
 	void mainMenu();
 

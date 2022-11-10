@@ -16,6 +16,17 @@ void Graphics::iniGraphics() {
 	}
 	else { Debug::out("data/ASCII/main.ascii\nfailed to open"); }
 
+	//login.ascii
+	file.open("data/ASCII/main.ascii");
+	if (file.is_open()) {
+		fileData << file.rdbuf();
+		file.close();
+		login = fileData.str();
+		fileData.str("");
+	}
+	else { Debug::out("data/ASCII/login.ascii\nfailed to open"); }
+
+
 	//settings.ascii
 	file.open("data/ASCII/settings.ascii");
 	if (file.is_open()) {

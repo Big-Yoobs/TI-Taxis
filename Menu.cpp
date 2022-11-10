@@ -247,6 +247,49 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 	}
 }
 
+void Menu::iniLoginMenu() {
+
+	bool iniLoginMenuLoop = true;
+
+	while (iniLoginMenuLoop) {
+
+
+		switch (displayMenu({ "Login", "Sign Up", "Exit" }, "BALLS TAXIS", Graphic->login, true, true, false, false, true, true, false, 3)) {
+
+		case 1: //login
+			loginMenu();
+			CommonFuncs->setQuit(false);
+			iniLoginMenuLoop = false;
+			break;
+
+		case 2: //sign up
+			signUpMenu();
+			CommonFuncs->setQuit(false);
+			iniLoginMenuLoop = false;
+			break;
+
+		case 3: //Exit
+			CommonFuncs->setQuit(true);
+			iniLoginMenuLoop = false;
+			break;
+
+		}
+	}
+	CommonFuncs->returnClearScreen();
+}
+
+void Menu::signUpMenu() {
+
+}
+
+void Menu::loginMenu() {
+
+}
+
+
+
+
+
 void Menu::mainMenu() {
 
 
