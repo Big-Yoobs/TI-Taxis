@@ -6,8 +6,7 @@
 //DO NOT USE UNTIL WE HAVE FILE HANDLING FRAMEWORK
 //This class is for the user. It holds user details such as the username and functions to interact with such details.
 
-class User
-{
+class User {
 private:
 
 	std::string firstName; //user's first name

@@ -12,7 +12,7 @@ ConfigFile ConfigFile::read() {
 		Debug::out("Could not read from file " + filename + "!");
 		return *this; // return pointer to self to allow for function chaining
 	}
-	data = json::parse(file);
+	data = Json::parse(file);
 	file.close();
 	return *this;
 }
@@ -33,7 +33,7 @@ ConfigFile ConfigFile::save() {
 	return save(false);
 }
 
-json& ConfigFile::get() {
+Json& ConfigFile::get() {
 	return data;
 }
 
@@ -54,6 +54,6 @@ bool ConfigFile::fileExists() {
 }
 
 ConfigFile::ConfigFile(std::string filename) {
-	this->filename = filename;
+	this->filename = "./data/" + filename;
 	read();
 }

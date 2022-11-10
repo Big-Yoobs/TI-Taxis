@@ -3,22 +3,23 @@
 #include <string>
 
 //third party libs
-#include "libs/nlohmann/json.hpp"
+#include "libs/nlohmann/json.hpp" // https://github.com/nlohmann/json
 #include "libs/cscrutil/scrutil.h" //DO NOT INCLUDE THESE OUTSIDE OF THIS CPP & the commonFunctions.h (unless you know what you are doing)
 #include "libs/cscrutil/scrutil.c" //call scr funcs from the commonFuncs instance and write your own in the scr section of commonFunctions
-//
+
 
 #include "commonFunctions.h"
 #include "Graphics.h"
 #include "Menu.h"
 
+#include "TripManager.h"
 #include "ConfigFile.h"
 #include "Debug.h"
 
 int main() {
     Debug::setDebug(true);
 
-    ConfigFile file("./data/data.json");
+    ConfigFile file("data.json");
     if (!file.fileExists()) {
         file.get() = {
             {"field", "value"},
@@ -26,6 +27,10 @@ int main() {
         };
         file.save(true);
     }
+
+    TripManager tripManager("trips.json", "CoolUser");
+
+    //return 0;
 
     //creating class instances
     CommonFunctions * CommonFuncs = new CommonFunctions;

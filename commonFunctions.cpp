@@ -629,3 +629,55 @@ int CommonFunctions::getCenterNLsVec(std::vector<std::string> textVec) {
 	return newLines;
 }
 
+std::string CommonFunctions::reCase(std::string input, bool uppercase) {
+	for (int i = 0; i < size(input); i++) {
+		input[i] = uppercase ? toupper(input[i]) : tolower(input[i]);
+	}
+	return input;
+}
+
+std::string CommonFunctions::upperCase(std::string input) {
+	return reCase(input, true);
+}
+
+std::string CommonFunctions::lowerCase(std::string input) {
+	return reCase(input, false);
+}
+
+
+
+int CommonFunctions::clamp(int value, int lower, int higher) {
+	if (value < lower) value = lower;
+	if (value > higher) value = higher;
+	return value;
+}
+
+double CommonFunctions::clamp(double value, double lower, double higher) {
+	if (value < lower) value = lower;
+	if (value > higher) value = higher;
+	return value;
+}
+
+long CommonFunctions::clamp(long value, long lower, long higher) {
+	if (value < lower) value = lower;
+	if (value > higher) value = higher;
+	return value;
+}
+
+
+
+std::string CommonFunctions::formatDistance(long distance) {
+	if (distance < 1000) return distance + "m";
+	double newDistance = round(distance / 10) / 100;
+	int decimal = (int) (newDistance * 100) % 100;
+	std::string km = std::to_string((int) newDistance);
+	std::string out = "km";
+	if (decimal) {
+		out = "." + std::to_string(decimal) + out;
+	}
+	for (int i = size(km) - 1; i >= 0; i--) {
+		out = km[i] + out;
+		if (!((size(km) - i) % 3) && i > 0) out = "," + out;
+	}
+	return out;
+}

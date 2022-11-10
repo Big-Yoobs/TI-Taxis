@@ -1,0 +1,17 @@
+{
+    "CoolUser": [
+        {
+            "numberPlate": "balls",
+            "driver": "Navid",
+            "origin": "origin address",
+            "destination": "destination address",
+            "distance": 7030,
+            "stage": "ended",
+            "rating": 3
+        },
+        {
+            "numberPlate": "KAJ406",
+            "driver": "Your mum"
+        }
+    ]
+}

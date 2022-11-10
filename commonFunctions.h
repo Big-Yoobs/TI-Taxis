@@ -127,7 +127,7 @@ public:
 	//outputs a string to the console in the top right corner
 	void displayGraphicRU(std::string graphic);
 
-	//returnsthe amount of white spaces needed to center a single line of text horizontally
+	//returns the amount of white spaces needed to center a single line of text horizontally
 	int getCenterSpacesStr(std::string text);
 
 	//returns the amount of white spaces needed to center a horizontal vector of strings horizontally.
@@ -137,9 +137,22 @@ public:
 	int getCenterNLsStr(std::string text);
 
 	//returns the amount of \n's needed to center verticle vector
-	int getCenterNLsVec(std::vector<std::string> textVec); 
+	int getCenterNLsVec(std::vector<std::string> textVec);
+
+	static std::string reCase(std::string input, bool uppercase); // change case of string
+
+	static std::string upperCase(std::string input); // convert strng to uppercase
+
+	static std::string lowerCase(std::string input); // convert string to lowercase
 
 
 
+	static int clamp(int value, int lower, int higher); // clamp value between two extremes
 
+	static double clamp(double value, double lower, double higher); // clamp value between two extremes
+
+	static long clamp(long value, long lower, long higher); // clamp value between two extremes
+
+
+	static std::string formatDistance(long distance); // format distance nicely
 };
