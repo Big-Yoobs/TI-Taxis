@@ -46,6 +46,8 @@ int main() {
     CommonFuncs->setSound(true); //this should be aquired through the userSettings json
     
     CommonFuncs->startScreen();
+
+    menu.iniLoginMenu();
     
     CommonFuncs->setQuit(false);
     CommonFuncs->centerGraphicLineAnim2(Graphic->main, 100); //animation

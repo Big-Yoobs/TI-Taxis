@@ -17,7 +17,7 @@ void Graphics::iniGraphics() {
 	else { Debug::out("data/ASCII/main.ascii\nfailed to open"); }
 
 	//login.ascii
-	file.open("data/ASCII/main.ascii");
+	file.open("data/ASCII/login.ascii");
 	if (file.is_open()) {
 		fileData << file.rdbuf();
 		file.close();
