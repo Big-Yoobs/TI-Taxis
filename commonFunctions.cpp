@@ -153,7 +153,33 @@ void CommonFunctions::startScreen() {
 		}
 	}
 	returnClearScreen();
+	if (getControlMode()) { //hiding our cursor after going fullscreen
+		showCursor(false);
+	}
 
+
+}
+
+
+//acceptSound sfx that plays when you hit enter normally (this just plays the sound)
+void CommonFunctions::acceptSound() {
+	if (getSound()) { 
+		Beep(200, 150);
+		Beep(250, 600);
+	}
+}
+
+//Go back sound. Sound that plays when you 'go back' normally (this just plays the sound) 
+void CommonFunctions::negativeSound() {
+	if (getSound()) { 
+		Beep(200, 150); 
+		Beep(150, 600);
+	}
+}
+
+//Movement sound. Sound that plays normally when you use the wasd keys to move (this just plays the sound)
+void CommonFunctions::movementSound() {
+	if (getSound()) { Beep(200, 150); }
 }
 
 
@@ -180,6 +206,16 @@ void CommonFunctions::toggleControlMode() {
 	}
 }
 
+void CommonFunctions::setSound(bool sound) {
+	this->sound = sound;
+}
+
+//if sound is on turn it off and vice versa
+void CommonFunctions::toggleSound() {
+	if (sound) { sound = false; }
+	else { sound = true; }
+}
+
 void CommonFunctions::setQuit(bool quit) {
 	this->quit = quit;
 }
@@ -191,9 +227,14 @@ bool CommonFunctions::getControlMode() {
 	return controlMode;
 }
 
+bool CommonFunctions::getSound() {
+	return sound;
+}
+
 bool CommonFunctions::getQuit() {
 	return quit;
 }
+
 
 
 

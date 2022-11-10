@@ -15,6 +15,7 @@ class CommonFunctions
 private:
 
 	bool controlMode; //if true we use the keyboard to navigate menus, else we use cin
+	bool sound; //if true sfx will play
 	bool quit;
 
 
@@ -56,6 +57,15 @@ public:
 
 	//start screen
 	void startScreen();
+
+	//acceptSound sfx that plays when you hit enter normally (this just plays the sound)
+	void acceptSound();
+
+	//Go back sound. Sound that plays when you 'go back' normally (this just plays the sound) 
+	void negativeSound();
+
+	//Movement sound. Sound that plays normally when you use the wasd keys to move (this just plays the sound)
+	void movementSound();
 	
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +76,10 @@ public:
 
 	void setControlMode(bool controlMode);
 	void toggleControlMode(); //if controlMode on turn it off and vice versa
+	void setSound(bool sound);
+	void toggleSound(); //if sound is on turn it off and vice versa
 	void setQuit(bool quit);
+	
 
 
 
@@ -74,6 +87,7 @@ public:
 	//functions to return the values of our private vars
 
 	bool getControlMode();
+	bool getSound();
 	bool getQuit();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////

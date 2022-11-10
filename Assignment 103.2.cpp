@@ -36,11 +36,14 @@ int main() {
 
     //running the program
     CommonFuncs->resetColors();
-    CommonFuncs->setControlMode(true);
-    CommonFuncs->setQuit(false);
+
+    CommonFuncs->setControlMode(true); //this should be aquired through the userSettings json
+    CommonFuncs->setSound(true); //this should be aquired through the userSettings json
+    
     CommonFuncs->startScreen();
-    CommonFuncs->showCursor(false);
-    CommonFuncs->centerGraphicLineAnim2(Graphic->main, 100);
+    
+    CommonFuncs->setQuit(false);
+    CommonFuncs->centerGraphicLineAnim2(Graphic->main, 100); //animation
     while (!CommonFuncs->getQuit()) {
         
         
