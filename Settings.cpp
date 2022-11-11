@@ -16,7 +16,7 @@ void Settings::setControlMode(bool newControlMode) {
 //if controlMode on turn it off and vice versa
 void Settings::toggleControlMode() {
 	controlMode = !controlMode;
-	showCursor(controlMode);
+	showCursor(!controlMode);
 }
 
 void Settings::setSound(bool newSound) {

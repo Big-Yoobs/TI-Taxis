@@ -16,7 +16,8 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 
 			CommonFunctions::returnClearScreen(); //clearing the screen
 
-			if (menuGraphic != "") { //menu graphic
+			//menu graphic
+			if (menuGraphic != "") { 
 				if (isGraphicCentered) { //centered 
 					CommonFunctions::centerGraphic(menuGraphic);
 				}
@@ -94,8 +95,8 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 			//CommonFunctions::waitTime(200);
 			while (1) {
 				if (isVerticle) {
-					if (GetKeyState('W') & 0x8000) {
-						while (GetKeyState('W') & 0x8000) {}
+					if (GetKeyState('W') & 0x8000 || GetKeyState(VK_UP) & 0x8000) {
+						while (GetKeyState('W') & 0x8000 || GetKeyState(VK_UP) & 0x8000) {}
 						if (selectedMenuItem > 0) {
 							selectedMenuItem--;
 							CommonFunctions::movementSound();
@@ -108,8 +109,8 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 						}
 						
 					}
-					else if (GetKeyState('S') & 0x8000) {
-						while (GetKeyState('S') & 0x8000) {}
+					else if (GetKeyState('S') & 0x8000 || GetKeyState(VK_DOWN) & 0x8000) {
+						while (GetKeyState('S') & 0x8000 || GetKeyState(VK_DOWN) & 0x8000) {}
 						if (selectedMenuItem < menuItemSize - 1) {
 							selectedMenuItem++;
 							CommonFunctions::movementSound();
@@ -124,8 +125,8 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 					}
 				}
 				else {
-					if (GetKeyState('A') & 0x8000) {
-						while (GetKeyState('A') & 0x8000) {}
+					if (GetKeyState('A') & 0x8000 || GetKeyState(VK_LEFT) & 0x8000) {
+						while (GetKeyState('A') & 0x8000 || GetKeyState(VK_LEFT) & 0x8000) {}
 						if (selectedMenuItem > 0) {
 							selectedMenuItem--;
 							CommonFunctions::movementSound();
@@ -138,8 +139,8 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 						}
 						
 					}
-					else if (GetKeyState('D') & 0x8000) {
-						while (GetKeyState('D') & 0x8000) {}
+					else if (GetKeyState('D') & 0x8000 || GetKeyState(VK_RIGHT) & 0x8000) {
+						while (GetKeyState('D') & 0x8000 || GetKeyState(VK_RIGHT) & 0x8000) {}
 						if (selectedMenuItem < menuItemSize - 1) {
 							selectedMenuItem++;
 							CommonFunctions::movementSound();
@@ -275,6 +276,13 @@ void Menu::iniLoginMenu() {
 }
 
 void Menu::signUpMenu() {
+	User NewUser;
+	
+	NewUser.setFirstName();
+	NewUser.setLastName();
+	NewUser.setEmail();
+	NewUser.setPassword();
+	NewUser.setPortrait();
 
 }
 

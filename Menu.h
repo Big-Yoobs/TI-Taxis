@@ -1,5 +1,6 @@
 #pragma once
 #include "CommonFunctions.h"
+#include "User.h"
 #include "Graphics.h"
 #include <vector>
 namespace Menu {
