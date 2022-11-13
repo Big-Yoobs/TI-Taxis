@@ -161,7 +161,17 @@ void User::setEmail() {
 
 		}
 		if (!containsErrors) {
-			break;
+			if (!isEmailTaken(emailStr)) break;
+			std::cout << "\n\n\n\t\tYour Email Is Already Taken Try Again...\n\t\tPress Enter To Continue...";
+			CommonFunctions::waitTime(200);
+			while (1) {
+
+				if (GetKeyState(VK_RETURN) & 0x8000) {
+					while (GetKeyState(VK_RETURN) & 0x8000) {}
+					FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+					break;
+				}
+			}
 		}
 		else {
 			std::cout << "\n\n\n\t\tYour Email Was Invalid Try Again...\n\t\tPress Enter To Continue...";
@@ -259,19 +269,7 @@ void User::setPassword() {
 
 
 void User::setPortrait() {
-	
-	switch (Menu::displayMenu({ "Portrait 1", "Portrait 2" }, "CHOSE PORTRAIT", Graphics::get("portraitSelection"), false, true, false, false, true, true, false, -1)) {
-
-	case 1:
-
-		break;
-
-	case 2:
-
-		break;
-
-	}
-
+	portraitId = Menu::displayMenu({ "Portrait 1", "Portrait 2" }, "CHOSE PORTRAIT", Graphics::get("portraitSelection"), false, true, false, false, true, true, false, -1);
 }
 
 //creditcard
@@ -281,3 +279,108 @@ void setCardExpMonth();
 void setCardExpYear();
 
 
+ConfigFile User::userConfig = ConfigFile("users.json");
+
+void User::saveUserInfo() {
+	if (!userConfig.fileExists()) {
+		userConfig.get() = Json::parse("{}");
+	}
+	if (userID < 0) {
+		std::map<std::string, Json> users = userConfig.get().get<std::map<std::string, Json>>();
+		std::vector<int> takenIds;
+		for (std::map<std::string, Json>::iterator i = users.begin(); i != users.end(); i++) {
+			takenIds.push_back(stoi(i->first.substr(5, i->first.length() - 5)));
+		}
+		do {
+			userID = rand();
+		} while (std::count(takenIds.begin(), takenIds.end(), userID));
+	}
+	userConfig.get()["user-" + std::to_string(userID)] = {
+		{"firstName", firstNameStr},
+		{"lastName", lastNameStr},
+		{"email", emailStr},
+		{"password", passwordStr},
+		{"portrait", portraitId},
+		{"creditCardNumber", creditCardNoStr},
+		{"creditCardLuckyNumbers", creditCardSecCodeStr},
+		{"creditCardExpiryYear", creditCardExpYearStr},
+		{"creditCardExpiryMonth", creditCardExpMonthStr}
+	};
+	userConfig.save();
+	Settings::loadForUser("user-" + std::to_string(userID));
+	signedIn = true;
+}
+
+bool User::loadFromFile(std::string email) {
+	if (!userConfig.fileExists()) return false;
+	std::map<std::string, Json> users = userConfig.get().get<std::map<std::string, Json>>();
+
+	for (std::map<std::string, Json>::iterator i = users.begin(); i != users.end(); i++) {
+		try {
+			if (i->second.contains("email") && i->second["email"] == email) {
+				userID = stoi(i->first.substr(5, i->first.length() - 5));
+				if (i->second.contains("firstName")) firstNameStr = i->second["firstName"];
+				if (i->second.contains("lastName")) lastNameStr = i->second["lastName"];
+				if (i->second.contains("email")) emailStr = i->second["email"];
+				if (i->second.contains("password")) passwordStr = i->second["password"];
+				if (i->second.contains("portrait")) portraitId = i->second["portrait"];
+				if (i->second.contains("creditCardNumber")) creditCardNoStr = i->second["creditCardNumber"];
+				if (i->second.contains("creditCardLuckyNumbers")) creditCardSecCodeStr = i->second["creditCardLuckyNumbers"];
+				if (i->second.contains("creditCardExpiryYear")) creditCardExpYearStr = i->second["creditCardExpiryYear"];
+				if (i->second.contains("creditCardExpiryMonth")) creditCardExpMonthStr = i->second["creditCardExpiryMonth"];
+				signedIn = true;
+				Settings::loadForUser("user-" + std::to_string(userID));
+				return true;
+			}
+		} catch (int e) {}
+	}
+	return false;
+}
+
+bool User::isEmailTaken(std::string email) {
+	if (!userConfig.fileExists()) return false;
+	std::map<std::string, Json> users = userConfig.get().get<std::map<std::string, Json>>();
+	for (std::map<std::string, Json>::iterator i = users.begin(); i != users.end(); i++) {
+		if (i->second.contains("email") && i->second["email"] == email) return true;
+	}
+	return false;
+}
+
+bool User::signIn(std::string email, std::string password) {
+	if (!userConfig.fileExists()) return false;
+	std::map<std::string, Json> users = userConfig.get().get<std::map<std::string, Json>>();
+	for (std::map<std::string, Json>::iterator i = users.begin(); i != users.end(); i++) {
+		if (i->second.contains("email") && i->second.contains("password") && i->second["email"] == email && i->second["password"] == password) {
+			return loadFromFile(email);
+		}
+	}
+	return false;
+}
+
+bool User::isSignedIn() {
+	return signedIn;
+}
+
+std::string User::getFirstName() {
+	return firstNameStr;
+}
+
+std::string User::getLastName() {
+	return lastNameStr;
+}
+
+std::string User::getName() {
+	return firstNameStr + " " + lastNameStr;
+}
+
+int User::getPortraitId() {
+	return portraitId;
+}
+
+int User::getId() {
+	return userID;
+}
+
+std::string User::getStringId() {
+	return "user-" + std::to_string(userID);
+}

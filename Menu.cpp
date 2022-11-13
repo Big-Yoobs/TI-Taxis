@@ -1,6 +1,7 @@
 #include "Menu.h"
 #include "Settings.h"
 #include "CommonFunctions.h"
+#include "Session.h"
 
 //functions
 
@@ -276,18 +277,18 @@ void Menu::iniLoginMenu() {
 }
 
 void Menu::signUpMenu() {
-	User NewUser;
-	
-	NewUser.setFirstName();
-	NewUser.setLastName();
-	NewUser.setEmail();
-	NewUser.setPassword();
-	NewUser.setPortrait();
+	User& user = Session::getUser();
+	user.setEmail();
+	user.setFirstName();
+	user.setLastName();
+	user.setPassword();
+	user.setPortrait();
 
+	user.saveUserInfo();
 }
 
 void Menu::loginMenu() {
-
+	User& user = Session::getUser();
 }
 
 
@@ -297,7 +298,7 @@ void Menu::loginMenu() {
 void Menu::mainMenu() {
 
 
-	switch (displayMenu({ "Book A Trip", "Address Book", "{UserName}", "Help", "Exit" }, "MAIN MENU", Graphics::get("main"), false, true, false, false, true, true, false, -1)) {
+	switch (displayMenu({ "Book A Trip", "Address Book", Session::getUser().getFirstName(), "Help", "Exit"}, "MAIN MENU", Graphics::get("main"), false, true, false, false, true, true, false, -1)) {
 
 	case 1: //Book a Trip
 		CommonFunctions::acceptSound();
@@ -332,7 +333,7 @@ void Menu::userMenu() {
 	while (userMenuOn) {
 
 		//Graphic->user1 make this dynamic with the actual user's portrait please
-		switch (displayMenu({ "Change User Details", "Settings", "Go Back" }, "{UserName}", Graphics::get("user1"), true, false, false, true, false, false, true, 3)) {
+		switch (displayMenu({ "Change User Details", "Settings", "Go Back" }, Session::getUser().getFirstName(), Graphics::get("user" + std::to_string(Session::getUser().getPortraitId())), true, false, false, true, false, false, true, 3)) {
 
 		case 1: //Change User Details
 			CommonFunctions::acceptSound();
@@ -382,6 +383,7 @@ void Menu::settingsMenu() {
 
 		case 3: //Go Back
 			CommonFunctions::negativeSound();
+			Settings::save();
 			settingsMenuOn = false;
 			break;
 

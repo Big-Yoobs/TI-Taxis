@@ -28,4 +28,3 @@ namespace Menu {
 	void startScreen();
 
 };
-

@@ -1,31 +1,68 @@
 #include "Settings.h"
+#include "ConfigFile.h"
 #include <Windows.h>
+#include "Debug.h"
 
-bool controlMode; //if true we use the keyboard to navigate menus, else we use cin
-bool sound; //if true sfx will play
+
+ConfigFile config("settings.json");
+std::string userId;
+
+bool getBool(std::string key) {
+	if (config.get()[userId][key].is_boolean()) {
+		return config.get()[userId][key].get<bool>();
+	}
+	return true;
+}
+
+bool setBool(std::string key, bool value) {
+	if (userId == "") return value;
+	config.get()[userId][key] = value;
+	return value;
+}
+
 bool quit;
 
 
+void Settings::loadForUser(std::string id) {
+	if (!config.fileExists()) {
+		config.get() = Json::parse("{}");
+	}
+	std::map<std::string, Json> users = config.get().get<std::map<std::string, Json>>();
+	bool foundSettings = false;
+	for (std::map<std::string, Json>::iterator i = users.begin(); i != users.end(); i++) {
+		if (i->first == id) {
+			foundSettings = true;
+			break;
+		}
+	}
+	if (!foundSettings) {
+		config.get()[id] = Json::parse("{\"controlMode\":true,\"sound\":true}");
+		config.save();
+	}
+	userId = id;
+}
+
+void Settings::save() {
+	config.save();
+}
 
 
 void Settings::setControlMode(bool newControlMode) {
-	controlMode = newControlMode;
-	showCursor(!controlMode);
+	showCursor(!setBool("controlMode", newControlMode));
 }
 
 //if controlMode on turn it off and vice versa
 void Settings::toggleControlMode() {
-	controlMode = !controlMode;
-	showCursor(!controlMode);
+	showCursor(!setBool("controlMode", !getBool("controlMode")));
 }
 
 void Settings::setSound(bool newSound) {
-	sound = newSound;
+	showCursor(!setBool("sound", newSound));
 }
 
 //if sound is on turn it off and vice versa
 void Settings::toggleSound() {
-	sound = !sound;
+	setBool("sound", !getBool("sound"));
 }
 
 void Settings::setQuit(bool newQuit) {
@@ -36,11 +73,11 @@ void Settings::setQuit(bool newQuit) {
 
 //getters
 bool Settings::getControlMode() {
-	return controlMode;
+	return getBool("controlMode");
 }
 
 bool Settings::getSound() {
-	return sound;
+	return getBool("sound");
 }
 
 bool Settings::getQuit() {

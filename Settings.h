@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+
 namespace Settings {
 	//turns off and on the flashing cursor in the console
 	void showCursor(bool cursorBool); //taken from here https://stackoverflow.com/questions/18028808/remove-blinking-underscore-on-console-cmd-prompt
@@ -14,4 +16,7 @@ namespace Settings {
 	bool getControlMode();
 	bool getSound();
 	bool getQuit();
+
+	void loadForUser(std::string id);
+	void save();
 }
