@@ -20,5 +20,16 @@
         "lastName": "Meek",
         "password": "Password1@",
         "portrait": 2
+    },
+    "user-4815": {
+        "creditCardExpiryMonth": "",
+        "creditCardExpiryYear": "",
+        "creditCardLuckyNumbers": "",
+        "creditCardNumber": "",
+        "email": "thomas.dehorsburgh@gmail.com",
+        "firstName": "Thomas",
+        "lastName": "Richards",
+        "password": "meme1488!",
+        "portrait": 1
     }
 }

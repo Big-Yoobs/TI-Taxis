@@ -272,6 +272,11 @@ void User::setPortrait() {
 	portraitId = Menu::displayMenu({ "Portrait 1", "Portrait 2" }, "CHOSE PORTRAIT", Graphics::get("portraitSelection"), false, true, false, false, true, true, false, -1);
 }
 
+
+void User::setLoginSuccessfulM(bool loginSuccess) {
+	this->loginSuccessfulM = loginSuccess;
+}
+
 //creditcard
 void setCardNo();
 void setCardSecCode();
@@ -383,4 +388,8 @@ int User::getId() {
 
 std::string User::getStringId() {
 	return "user-" + std::to_string(userID);
+}
+
+bool User::getLoginSuccessfulM() {
+	return loginSuccessfulM;
 }

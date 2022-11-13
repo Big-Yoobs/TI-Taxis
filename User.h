@@ -11,6 +11,9 @@
 
 class User {
 private:
+
+	bool loginSuccessfulM; //used in the menu class
+
 	static ConfigFile userConfig;
 	bool signedIn = false;
 
@@ -43,18 +46,22 @@ public:
 	void setPassword();
 	void setPortrait();
 
+	void setLoginSuccessfulM(bool loginSuccess);
+
 	//creditcard
 	void setCardNo();
 	void setCardSecCode();
 	void setCardExpMonth();
 	void setCardExpYear();
 
-
+	//getters
 	std::string getFirstName();
 	std::string getLastName();
 	std::string getName();
 	int getPortraitId();
 	int getId();
 	std::string getStringId();
+	bool getLoginSuccessfulM();
+
 };
 

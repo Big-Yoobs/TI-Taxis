@@ -246,7 +246,7 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 }
 
 void Menu::iniLoginMenu() {
-
+	User& user = Session::getUser();
 	bool iniLoginMenuLoop = true;
 
 	while (iniLoginMenuLoop) {
@@ -256,14 +256,17 @@ void Menu::iniLoginMenu() {
 
 		case 1: //login
 			loginMenu();
-			Settings::setQuit(false);
-			iniLoginMenuLoop = false;
+			
+			if (user.getLoginSuccessfulM()) {
+				iniLoginMenuLoop = false;
+				Settings::setQuit(false);
+			}
 			break;
 
 		case 2: //sign up
 			signUpMenu();
-			Settings::setQuit(false);
-			iniLoginMenuLoop = false;
+			//Settings::setQuit(false);
+			//iniLoginMenuLoop = false;
 			break;
 
 		case 3: //Exit
@@ -289,6 +292,99 @@ void Menu::signUpMenu() {
 
 void Menu::loginMenu() {
 	User& user = Session::getUser();
+
+	
+	user.setLoginSuccessfulM(true);
+	bool emailMenuOn = true;
+	bool passMenuOn = true;
+	std::string emailInput;
+	std::string passInput;
+
+	while (emailMenuOn) { //entering email
+		
+		CommonFunctions::returnClearScreen();
+		CommonFunctions::centerGraphic(Graphics::get("login"));
+		std::cout << "\n\n\n";
+		for (int i = 0; i < CommonFunctions::getCenterSpacesStr("LOGIN"); i++) std::cout << " ";
+		std::cout << "LOGIN\n\n";
+		for (int i = 0; i < CommonFunctions::getCenterSpacesStr("Enter Email: "); i++) std::cout << " ";
+		std::cout << "Enter Email: ";
+		std::cin >> emailInput;
+
+		if (user.isEmailTaken(emailInput)) { //if email matches 
+			emailMenuOn = false;
+			break;
+		}
+
+		else { //wrong email
+			std::cout << "\n\n";
+			for (int i = 0; i < CommonFunctions::getCenterSpacesStr("No Email Matches Your Input..."); i++) {
+				std::cout << " ";
+			}
+			std::cout << "No Email Matches Your Input...";
+			CommonFunctions::continueInput(2);
+			CommonFunctions::returnClearScreen();
+			switch (Menu::displayMenu({ "Try Again", "Go Back" }, "LOGIN", Graphics::get("login"), true, true, false, false, false, false, true, 2)) {
+
+			case 1: //try again
+
+				break;
+
+			case 2: //go back
+				emailMenuOn = false;
+				user.setLoginSuccessfulM(false);
+				break;
+
+			}
+		}
+
+	}
+
+	if (user.getLoginSuccessfulM()) { //entering password
+		while (passMenuOn) { 
+			
+			CommonFunctions::returnClearScreen();
+			CommonFunctions::centerGraphic(Graphics::get("login"));
+			std::cout << "\n\n\n";
+			for (int i = 0; i < CommonFunctions::getCenterSpacesStr("LOGIN"); i++) std::cout << " ";
+			std::cout << "LOGIN\n\n";
+			for (int i = 0; i < CommonFunctions::getCenterSpacesStr("Enter Password: "); i++) std::cout << " ";
+			std::cout << "Enter Password: ";
+			std::cin >> passInput;
+
+			if (user.signIn(emailInput, passInput)) {
+				passMenuOn = false;
+				break;
+			}
+
+			else { //wrong input
+				std::cout << "\n\n";
+				for (int i = 0; i < CommonFunctions::getCenterSpacesStr("No Email Password Your Input..."); i++) {
+					std::cout << " ";
+				}
+				std::cout << "No Password Matches Your Input...";
+				CommonFunctions::continueInput(2);
+				CommonFunctions::returnClearScreen();
+				switch (Menu::displayMenu({ "Try Again", "Go Back" }, "LOGIN", Graphics::get("login"), true, true, false, false, false, false, true, 2)) {
+
+				case 1: //try again
+
+					break;
+
+				case 2: //go back
+					passMenuOn = false;
+					user.setLoginSuccessfulM(false);
+					break;
+
+				}
+			}
+		}
+	}
+	//if (user.getLoginSuccessfulM()) { //actually logging in
+
+
+
+	//}
 }
 
 

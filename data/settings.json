@@ -1,5 +1,13 @@
 {
+    "": {
+        "controlMode": null,
+        "sound": null
+    },
     "user-28182": {
+        "controlMode": true,
+        "sound": true
+    },
+    "user-4815": {
         "controlMode": true,
         "sound": true
     }

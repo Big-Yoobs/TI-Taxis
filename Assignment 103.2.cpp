@@ -27,10 +27,10 @@ int main() {
     
     Menu::startScreen();
 
-    //Menu::iniLoginMenu();
+    Menu::iniLoginMenu();
 
     // Session::getUser().loadFromFile("isaiah@eyezah.com"); // logs you in as an existing user without verification
-    Session::getUser().signIn("isaiah@eyezah.com", "Password1@");
+    //Session::getUser().signIn("isaiah@eyezah.com", "Password1@");
 
     TripManager tripManager("trips.json", Session::getUser().getStringId());
     
