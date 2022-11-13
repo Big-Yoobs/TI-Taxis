@@ -312,12 +312,12 @@ void User::saveUserInfo() {
 }
 
 bool User::loadFromFile(std::string email) {
-	if (!userConfig.fileExists()) return false;
-	std::map<std::string, Json> users = userConfig.get().get<std::map<std::string, Json>>();
+	if (!userConfig.fileExists()) return false; // file is empty, so no accounts exist
+	std::map<std::string, Json> users = userConfig.get().get<std::map<std::string, Json>>(); // convert JSON to map
 
-	for (std::map<std::string, Json>::iterator i = users.begin(); i != users.end(); i++) {
+	for (std::map<std::string, Json>::iterator i = users.begin(); i != users.end(); i++) { // iterate through map
 		try {
-			if (i->second.contains("email") && i->second["email"] == email) {
+			if (i->second.contains("email") && i->second["email"] == email) { // found user with email, load data
 				userID = stoi(i->first.substr(5, i->first.length() - 5));
 				if (i->second.contains("firstName")) firstNameStr = i->second["firstName"];
 				if (i->second.contains("lastName")) lastNameStr = i->second["lastName"];
@@ -329,32 +329,32 @@ bool User::loadFromFile(std::string email) {
 				if (i->second.contains("creditCardExpiryYear")) creditCardExpYearStr = i->second["creditCardExpiryYear"];
 				if (i->second.contains("creditCardExpiryMonth")) creditCardExpMonthStr = i->second["creditCardExpiryMonth"];
 				signedIn = true;
-				Settings::loadForUser("user-" + std::to_string(userID));
+				Settings::loadForUser("user-" + std::to_string(userID)); // load settings for user
 				return true;
 			}
 		} catch (int e) {}
 	}
-	return false;
+	return false; // no user found
 }
 
 bool User::isEmailTaken(std::string email) {
-	if (!userConfig.fileExists()) return false;
-	std::map<std::string, Json> users = userConfig.get().get<std::map<std::string, Json>>();
-	for (std::map<std::string, Json>::iterator i = users.begin(); i != users.end(); i++) {
-		if (i->second.contains("email") && i->second["email"] == email) return true;
+	if (!userConfig.fileExists()) return false; // file is empty, so no accounts exist
+	std::map<std::string, Json> users = userConfig.get().get<std::map<std::string, Json>>(); // convert JSON to map
+	for (std::map<std::string, Json>::iterator i = users.begin(); i != users.end(); i++) { // iterate through map
+		if (i->second.contains("email") && i->second["email"] == email) return true; // found user with email
 	}
-	return false;
+	return false; // no user found
 }
 
 bool User::signIn(std::string email, std::string password) {
-	if (!userConfig.fileExists()) return false;
-	std::map<std::string, Json> users = userConfig.get().get<std::map<std::string, Json>>();
-	for (std::map<std::string, Json>::iterator i = users.begin(); i != users.end(); i++) {
-		if (i->second.contains("email") && i->second.contains("password") && i->second["email"] == email && i->second["password"] == password) {
-			return loadFromFile(email);
+	if (!userConfig.fileExists()) return false; // file is empty, so no accounts exist
+	std::map<std::string, Json> users = userConfig.get().get<std::map<std::string, Json>>(); // convert JSON to map
+	for (std::map<std::string, Json>::iterator i = users.begin(); i != users.end(); i++) { // iterate through map
+		if (i->second.contains("email") && i->second.contains("password") && i->second["email"] == email && i->second["password"] == password) { // found user with email and password
+			return loadFromFile(email); // load user from file
 		}
 	}
-	return false;
+	return false; // no user found
 }
 
 bool User::isSignedIn() {

@@ -36,7 +36,7 @@ void Settings::loadForUser(std::string id) {
 		}
 	}
 	if (!foundSettings) {
-		config.get()[id] = Json::parse("{\"controlMode\":true,\"sound\":true}");
+		config.get()[id] = Json::parse("{\"controlMode\":true,\"sound\":true}"); // default settings
 		config.save();
 	}
 	userId = id;
