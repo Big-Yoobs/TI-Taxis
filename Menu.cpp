@@ -511,6 +511,44 @@ void Menu::startScreen() {
 }
 
 void Menu::userDetailsMenu() {
+	bool userDetailsMenuOn = true;
+	User& user = Session::getUser();
+	while (userDetailsMenuOn) {
 
+		switch (displayMenu({ "Change Portrait", "Change First Name", "Change Last Name", "Change Email", "Change Password", "Go Back" }, "USER DETAILS\n\t" + user.getName() + "\n\tEmail: " + user.getEmail(), Graphics::get("user" + std::to_string(Session::getUser().getPortraitId())), true, false, true, false, false, false, true, 6)) {
+
+		case 1: //change portrait
+			user.setPortrait();
+			user.saveUserInfo();
+			break;
+
+		case 2: //change first name
+			user.setFirstName();
+			user.saveUserInfo();
+			break;
+
+		case 3: //change last name
+			user.setLastName();
+			user.saveUserInfo();
+			break;
+
+		case 4: //change email
+			user.setEmail();
+			user.saveUserInfo();
+			break;
+
+		case 5: //change password
+			user.setPassword();
+			user.saveUserInfo();
+			break;
+
+		case 6: //go back
+			userDetailsMenuOn = false;
+			break;
+
+
+		}
+
+	}
 }
 

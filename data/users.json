@@ -1,4 +1,26 @@
 {
+    "user-1111": {
+        "creditCardExpiryMonth": "",
+        "creditCardExpiryYear": "",
+        "creditCardLuckyNumbers": "",
+        "creditCardNumber": "",
+        "email": "admin",
+        "firstName": "admin",
+        "lastName": "admin",
+        "password": "admin",
+        "portrait": 2
+    },
+    "user-11307": {
+        "creditCardExpiryMonth": "",
+        "creditCardExpiryYear": "",
+        "creditCardLuckyNumbers": "",
+        "creditCardNumber": "",
+        "email": "tomphonse@protonmail.com",
+        "firstName": "Thomas",
+        "lastName": "Richardson",
+        "password": "password1234!",
+        "portrait": 2
+    },
     "user-26687": {
         "creditCardExpiryMonth": "",
         "creditCardExpiryYear": "",

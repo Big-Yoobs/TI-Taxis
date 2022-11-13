@@ -8,8 +8,6 @@ void User::setFirstName() {
 		CommonFunctions::returnClearScreen();
 		CommonFunctions::centerGraphic("meme\nmeme");  //replace param contents with the sign up menu ascii art
 		std::cout << "\n\n\n";
-		for (int i = 0; i < CommonFunctions::getCenterSpacesStr("SIGN UP"); i++) { std::cout << " "; }
-		std::cout << "SIGN UP\n\n";
 		for (int i = 0; i < CommonFunctions::getCenterSpacesStr("Enter First Name: "); i++) { std::cout << " "; }
 		std::cout << "Enter First Name: ";
 		std::cin >> firstNameStr;
@@ -31,8 +29,6 @@ void User::setLastName() {
 		CommonFunctions::returnClearScreen();
 		CommonFunctions::centerGraphic("meme\nmeme");  //replace param contents with the sign up menu ascii art
 		std::cout << "\n\n\n";
-		for (int i = 0; i < CommonFunctions::getCenterSpacesStr("SIGN UP"); i++) { std::cout << " "; }
-		std::cout << "SIGN UP\n\n";
 		for (int i = 0; i < CommonFunctions::getCenterSpacesStr("Enter Last Name: "); i++) { std::cout << " "; }
 		std::cout << "Enter Last Name: ";
 		std::cin >> lastNameStr;
@@ -53,8 +49,6 @@ void User::setEmail() {
 		CommonFunctions::returnClearScreen();
 		CommonFunctions::centerGraphic("meme\nmeme");  //replace param contents with the sign up menu ascii art
 		std::cout << "\n\n\n";
-		for (int i = 0; i < CommonFunctions::getCenterSpacesStr("SIGN UP"); i++) { std::cout << " "; }
-		std::cout << "SIGN UP\n\n";
 		for (int i = 0; i < CommonFunctions::getCenterSpacesStr("Enter Email: "); i++) { std::cout << " "; }
 		std::cout << "Enter Email: ";
 		std::cin >> emailStr;
@@ -197,8 +191,6 @@ void User::setPassword() {
 		CommonFunctions::returnClearScreen();
 		CommonFunctions::centerGraphic("meme\nmeme");  //replace param contents with the sign up menu ascii art
 		std::cout << "\n\n\n";
-		for (int i = 0; i < CommonFunctions::getCenterSpacesStr("SIGN UP"); i++) { std::cout << " "; }
-		std::cout << "SIGN UP\n\n";
 		for (int i = 0; i < CommonFunctions::getCenterSpacesStr("Enter Password (Min Length 8, Contain atleast 1: symbol and number): "); i++) { std::cout << " "; }
 		std::cout << "Enter Password (Min Length 8, Contain atleast 1: symbol and number): ";
 		std::cin >> passwordStr;
@@ -237,8 +229,6 @@ void User::setPassword() {
 			CommonFunctions::returnClearScreen();
 			CommonFunctions::centerGraphic("meme\nmeme");  //replace param contents with the sign up menu ascii art
 			std::cout << "\n\n\n";
-			for (int i = 0; i < CommonFunctions::getCenterSpacesStr("SIGN UP"); i++) { std::cout << " "; }
-			std::cout << "SIGN UP\n\n";
 			for (int i = 0; i < CommonFunctions::getCenterSpacesStr("Confirm Password: "); i++) { std::cout << " "; }
 			std::cout << "Confirm Password: ";
 			std::cin >> passConfirm;
@@ -269,7 +259,9 @@ void User::setPassword() {
 
 
 void User::setPortrait() {
+	FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 	portraitId = Menu::displayMenu({ "Portrait 1", "Portrait 2" }, "CHOSE PORTRAIT", Graphics::get("portraitSelection"), false, true, false, false, true, true, false, -1);
+	FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 }
 
 
@@ -376,6 +368,10 @@ std::string User::getLastName() {
 
 std::string User::getName() {
 	return firstNameStr + " " + lastNameStr;
+}
+
+std::string User::getEmail() {
+	return emailStr;
 }
 
 int User::getPortraitId() {

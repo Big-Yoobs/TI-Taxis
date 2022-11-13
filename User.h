@@ -58,6 +58,7 @@ public:
 	std::string getFirstName();
 	std::string getLastName();
 	std::string getName();
+	std::string getEmail();
 	int getPortraitId();
 	int getId();
 	std::string getStringId();
