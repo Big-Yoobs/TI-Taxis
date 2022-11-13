@@ -311,6 +311,8 @@ void Menu::loginMenu() {
 		std::cout << "Enter Email: ";
 		std::cin >> emailInput;
 
+		emailInput = CommonFunctions::reCase(emailInput, true);
+
 		if (user.isEmailTaken(emailInput)) { //if email matches 
 			emailMenuOn = false;
 			break;
@@ -380,11 +382,6 @@ void Menu::loginMenu() {
 			}
 		}
 	}
-	//if (user.getLoginSuccessfulM()) { //actually logging in
-
-
-
-	//}
 }
 
 
@@ -515,7 +512,7 @@ void Menu::userDetailsMenu() {
 	User& user = Session::getUser();
 	while (userDetailsMenuOn) {
 
-		switch (displayMenu({ "Change Portrait", "Change First Name", "Change Last Name", "Change Email", "Change Password", "Go Back" }, "USER DETAILS\n\t" + user.getName() + "\n\tEmail: " + user.getEmail(), Graphics::get("user" + std::to_string(Session::getUser().getPortraitId())), true, false, true, false, false, false, true, 6)) {
+		switch (displayMenu({ "Change Portrait", "Change First Name", "Change Last Name", "Change Email", "Change Password", "Go Back" }, "USER DETAILS\n\t" + user.getName() + "\n\tEmail: " + CommonFunctions::reCase(user.getEmail(), false), Graphics::get("user" + std::to_string(Session::getUser().getPortraitId())), true, false, false, true, false, false, true, 6)) {
 
 		case 1: //change portrait
 			user.setPortrait();

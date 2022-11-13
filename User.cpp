@@ -61,7 +61,6 @@ void User::setEmail() {
 		int emailPrefixCount = 0;
 		bool containsErrors = false;
 		int emailAtCounter = 0;
-		int emailPrefixDotCounter = 0;
 		int emailDomainDotCounter = 0;
 
 		for (int i = 0; i < size(emailStr); i++) { //checking how many @ symbols
@@ -95,10 +94,6 @@ void User::setEmail() {
 		if (!containsErrors) { //prefix
 			for (int i = 0; i < size(emailStr); i++) {
 
-				if (emailStr[i] == '.') {
-					emailPrefixDotCounter++;
-				}
-
 				if (emailStr[i] != '@') {
 					emailPrefix = emailPrefix + emailStr[i];
 				}
@@ -108,7 +103,7 @@ void User::setEmail() {
 				}
 			}
 
-			if (emailPrefixDotCounter > 1 || emailPrefix[size(emailPrefix) - 1] == '-') { //if prefix has more than one fullstop or last char is a dash
+			if (emailPrefix[size(emailPrefix) - 1] == '-') { //if prefix has more than one fullstop or last char is a dash
 				containsErrors = true;
 			}
 
@@ -155,6 +150,9 @@ void User::setEmail() {
 
 		}
 		if (!containsErrors) {
+			
+			emailStr = CommonFunctions::reCase(emailStr, true);
+
 			if (!isEmailTaken(emailStr)) break;
 			std::cout << "\n\n\n\t\tYour Email Is Already Taken Try Again...\n\t\tPress Enter To Continue...";
 			CommonFunctions::waitTime(200);
