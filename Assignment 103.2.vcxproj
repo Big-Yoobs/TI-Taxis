@@ -139,6 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Address.cpp" />
+    <ClCompile Include="AddressBook.cpp" />
     <ClCompile Include="Assignment 103.2.cpp" />
     <ClCompile Include="CommonFunctions.cpp" />
     <ClCompile Include="ConfigFile.cpp" />
@@ -152,6 +154,8 @@
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Address.h" />
+    <ClInclude Include="AddressBook.h" />
     <ClInclude Include="CommonFunctions.h" />
     <ClInclude Include="ConfigFile.h" />
     <ClInclude Include="Debug.h" />

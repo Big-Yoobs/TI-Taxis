@@ -33,4 +33,8 @@ namespace Menu {
 
 	void startScreen();
 
+	void bookATrip();
+
+	void openAddressBook();
+
 };

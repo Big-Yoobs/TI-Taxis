@@ -15,9 +15,20 @@
 #include "ConfigFile.h"
 #include "Debug.h"
 #include "Session.h"
+#include "AddressBook.h"
 
 int main() {
     Debug::setDebug(true);
+
+    AddressBook::reload(); // should be called at start of program
+
+    AddressBook::getAddresses("coolUser"); // get addressbook for user
+    
+    AddressBook::addAddress("coolUser", "6 Beach Rd", "Home"); // add address to addressbook (leave third parameter empty if unnamed)
+
+    AddressBook::renameAddress("coolUser", "6 Beach Rd", "Work"); // rename address in addressbook (set third parameter to "" if unnamed)
+
+    AddressBook::save(); // save to local file
 
     srand(time(NULL));
     Session::newSession(); // creates new user instance
@@ -27,10 +38,10 @@ int main() {
     
     Menu::startScreen();
 
-    Menu::iniLoginMenu();
+    //Menu::iniLoginMenu();
 
-    // Session::getUser().loadFromFile("isaiah@eyezah.com"); // logs you in as an existing user without verification
-    //Session::getUser().signIn("isaiah@eyezah.com", "Password1@");
+    //Session::getUser().loadFromFile("isaiah@eyezah.com"); // logs you in as an existing user without verification
+    Session::getUser().signIn("isaiah@eyezah.com", "Password1@");
 
     TripManager tripManager("trips.json", Session::getUser().getStringId());
     

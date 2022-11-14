@@ -395,6 +395,7 @@ void Menu::mainMenu() {
 
 	case 1: //Book a Trip
 		CommonFunctions::acceptSound();
+		bookATrip();
 		break;
 
 	case 2: //Address Book
@@ -417,6 +418,13 @@ void Menu::mainMenu() {
 		Settings::setQuit(true);
 		break;
 	}
+}
+
+void Menu::bookATrip() {
+
+}
+
+void Menu::openAddressBook() {
 
 }
 

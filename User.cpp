@@ -308,11 +308,12 @@ void User::saveUserInfo() {
 
 bool User::loadFromFile(std::string email) {
 	if (!userConfig.fileExists()) return false; // file is empty, so no accounts exist
+	std::string uppercase = CommonFunctions::upperCase(email);
 	std::map<std::string, Json> users = userConfig.get().get<std::map<std::string, Json>>(); // convert JSON to map
 
 	for (std::map<std::string, Json>::iterator i = users.begin(); i != users.end(); i++) { // iterate through map
 		try {
-			if (i->second.contains("email") && i->second["email"] == email) { // found user with email, load data
+			if (i->second.contains("email") && i->second["email"] == uppercase) { // found user with email, load data
 				userID = stoi(i->first.substr(5, i->first.length() - 5));
 				if (i->second.contains("firstName")) firstNameStr = i->second["firstName"];
 				if (i->second.contains("lastName")) lastNameStr = i->second["lastName"];
@@ -333,6 +334,7 @@ bool User::loadFromFile(std::string email) {
 }
 
 bool User::isEmailTaken(std::string email) {
+	email = CommonFunctions::upperCase(email);
 	if (!userConfig.fileExists()) return false; // file is empty, so no accounts exist
 	std::map<std::string, Json> users = userConfig.get().get<std::map<std::string, Json>>(); // convert JSON to map
 	for (std::map<std::string, Json>::iterator i = users.begin(); i != users.end(); i++) { // iterate through map
@@ -343,9 +345,10 @@ bool User::isEmailTaken(std::string email) {
 
 bool User::signIn(std::string email, std::string password) {
 	if (!userConfig.fileExists()) return false; // file is empty, so no accounts exist
+	std::string uppercase = CommonFunctions::upperCase(email);
 	std::map<std::string, Json> users = userConfig.get().get<std::map<std::string, Json>>(); // convert JSON to map
 	for (std::map<std::string, Json>::iterator i = users.begin(); i != users.end(); i++) { // iterate through map
-		if (i->second.contains("email") && i->second.contains("password") && i->second["email"] == email && i->second["password"] == password) { // found user with email and password
+		if (i->second.contains("email") && i->second.contains("password") && i->second["email"] == uppercase && i->second["password"] == password) { // found user with email and password
 			return loadFromFile(email); // load user from file
 		}
 	}
