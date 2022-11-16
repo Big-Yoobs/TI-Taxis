@@ -610,18 +610,22 @@ void Menu::openAddressBook() {
 						}
 					}
 					addressEditMenuOn = false;
+					
 					break;
 
 				case 2: //edit address name
+					std::cout << "\n\n\n";
 					//address name
 					std::cout << "Enter Name (eg. home, work, etc.): ";
-					std::cin.ignore();
+					//std::cin.ignore();
 					std::getline(std::cin, addressNameEditInput);					
 
 					AddressBook::removeAddress(user.getStringId(), addressEditStr);
 					AddressBook::addAddress(user.getStringId(), addressEditStr, addressNameEditInput);
 					AddressBook::save();
 					addressEditMenuOn = false;
+					while (GetKeyState(VK_RETURN) & 0x8000) {}
+					FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 					break;
 
 				case 3: //delete address
@@ -633,7 +637,7 @@ void Menu::openAddressBook() {
 
 					}
 					break;
-
+					
 				case 4: //go back
 					addressEditMenuOn = false;
 					break;
@@ -711,7 +715,6 @@ void Menu::settingsMenu() {
 
 		}
 	}
-
 }
 
 void Menu::startScreen() {
