@@ -431,8 +431,12 @@ void Menu::openAddressBook() {
 	while (1) {
 		User& user = Session::getUser();
 		std::vector<std::string> addressStrVec;
-		std::vector<Address> addressVec = *AddressBook::getAddresses("coolUser");
-		//std::vector<Address> addressVec = *AddressBook::getAddresses(user.getStringId());
+		
+		std::vector<Address> addressVec;
+
+		for (Address address : *AddressBook::getAddresses(user.getStringId())) {
+			addressVec.push_back(address);
+		}
 		int userChoice;
 
 		addressStrVec.push_back("Add New Address");
@@ -515,7 +519,8 @@ void Menu::openAddressBook() {
 
 				if (addAddressChoice == 1) { //yes
 					
-					AddressBook::addAddress("coolUser", streetNumber + " " + streetNameStr + ", " + suburbNameStr, addressNameInput);
+					AddressBook::addAddress(user.getStringId(), streetNumber + " " + streetNameStr + ", " + suburbNameStr, addressNameInput);
+					AddressBook::save();
 					break;
 				}
 				else { //no
@@ -528,7 +533,7 @@ void Menu::openAddressBook() {
 		else { //selecting an address
 			bool addressEditMenuOn = true;
 			while (addressEditMenuOn) {
-				addressVec = *AddressBook::getAddresses("coolUser");
+				addressVec = *AddressBook::getAddresses(user.getStringId());
 				std::string streetNumber;
 				std::string streetNameStr;
 				std::string suburbNameStr;
@@ -592,8 +597,8 @@ void Menu::openAddressBook() {
 						addAddressChoice = displayMenu({ "Yes", "No" }, "CONFIRM EDIT?", "\n\nADDRESS : " + streetNumber + " " + streetNameStr + ", " + suburbNameStr + ".", false, false, false, false, true, true, false, -1);
 
 						if (addAddressChoice == 1) { //yes
-							AddressBook::removeAddress("coolUser", addressEditStr);
-							AddressBook::addAddress("coolUser", streetNumber + " " + streetNameStr + ", " + suburbNameStr, addressNameEditStr);
+							AddressBook::removeAddress(user.getStringId(), addressEditStr);
+							AddressBook::addAddress(user.getStringId(), streetNumber + " " + streetNameStr + ", " + suburbNameStr, addressNameEditStr);
 							AddressBook::save();
 							
 							break;
@@ -613,8 +618,8 @@ void Menu::openAddressBook() {
 					std::cin.ignore();
 					std::getline(std::cin, addressNameEditInput);					
 
-					AddressBook::removeAddress("coolUser", addressEditStr);
-					AddressBook::addAddress("coolUser", addressEditStr, addressNameEditInput);
+					AddressBook::removeAddress(user.getStringId(), addressEditStr);
+					AddressBook::addAddress(user.getStringId(), addressEditStr, addressNameEditInput);
 					AddressBook::save();
 					addressEditMenuOn = false;
 					break;
@@ -622,7 +627,7 @@ void Menu::openAddressBook() {
 				case 3: //delete address
 					addAddressChoice = displayMenu({ "Yes", "No" }, "CONFIRM DELETION?", "NAME: " + addressNameEditStr + "\nADDRESS: " + addressEditStr + "\n", false, true, false, false, true, true, false, -1);
 					if (addAddressChoice == 1) {
-						AddressBook::removeAddress("coolUser", addressEditStr);
+						AddressBook::removeAddress(user.getStringId(), addressEditStr);
 						AddressBook::save();
 						addressEditMenuOn = false;
 

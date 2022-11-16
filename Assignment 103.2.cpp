@@ -22,13 +22,13 @@ int main() {
 
     AddressBook::reload(); // should be called at start of program
 
-    AddressBook::getAddresses("coolUser"); // get addressbook for user
-    
-    AddressBook::addAddress("coolUser", "6 Beach Rd", "Home"); // add address to addressbook (leave third parameter empty if unnamed)
+    //AddressBook::getAddresses("coolUser"); // get addressbook for user
+    //
+    //AddressBook::addAddress("coolUser", "6 Beach Rd", "Home"); // add address to addressbook (leave third parameter empty if unnamed)
 
-    AddressBook::renameAddress("coolUser", "6 Beach Rd", "Work"); // rename address in addressbook (set third parameter to "" if unnamed)
+    //AddressBook::renameAddress("coolUser", "6 Beach Rd", "Work"); // rename address in addressbook (set third parameter to "" if unnamed)
 
-    AddressBook::save(); // save to local file
+    //AddressBook::save(); // save to local file
 
     srand(time(NULL));
     Session::newSession(); // creates new user instance
