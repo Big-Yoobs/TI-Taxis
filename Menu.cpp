@@ -400,6 +400,7 @@ void Menu::mainMenu() {
 
 	case 2: //Address Book
 		CommonFunctions::acceptSound();
+		openAddressBook();
 		break;
 
 	case 3: //{UserName}
@@ -421,10 +422,225 @@ void Menu::mainMenu() {
 }
 
 void Menu::bookATrip() {
+	
+	
 
 }
 
 void Menu::openAddressBook() {
+	while (1) {
+		User& user = Session::getUser();
+		std::vector<std::string> addressStrVec;
+		std::vector<Address> addressVec = *AddressBook::getAddresses("coolUser");
+		//std::vector<Address> addressVec = *AddressBook::getAddresses(user.getStringId());
+		int userChoice;
+
+		addressStrVec.push_back("Add New Address");
+		for (int i = 0; i < size(addressVec); i++) {
+
+			addressStrVec.push_back(addressVec[i].getName() + " | " + addressVec[i].getAddress());
+
+		}
+		addressStrVec.push_back("Go Back");
+
+
+		userChoice = displayMenu(addressStrVec, "ADDRESS BOOK", "", true, false, false, false, false, false, false, size(addressStrVec));
+
+		//go back
+		if (userChoice == size(addressStrVec)) { break; }
+
+		//add a new address
+		else if (userChoice == 1) {
+			std::string streetNumber;
+			std::string streetNameStr;
+			std::string suburbNameStr;
+			std::string addressNameInput;
+
+			while (1) { //street number
+				
+				std::cout << "\n\n\n";
+				std::cout << "Enter Street Number: ";
+				std::cin >> streetNumber;
+
+				//wrong input
+				if (CommonFunctions::strHasAlphabet(streetNumber) || CommonFunctions::strHasSymbol(streetNumber)) {
+					CommonFunctions::wrongInput(2);
+				}
+				else { //moving next var
+					break;
+				}
+			}
+
+			while (1) { //streetName
+				
+				std::cout << "Enter Street Name: " << streetNumber << " ";
+				std::cin.ignore();
+				std::getline(std::cin, streetNameStr);
+
+				//wrong input
+				if (CommonFunctions::strHasNum(streetNameStr) || CommonFunctions::strHasSymbol(streetNameStr)) {
+					CommonFunctions::wrongInput(2);
+				}
+
+				else { //moving to next var
+					break;
+				}
+			}
+
+			while (1) { //suburb
+
+				std::cout << "Enter Suburb: ";
+				//std::cin.ignore();
+				std::getline(std::cin, suburbNameStr);
+
+				//wrong input
+				if (CommonFunctions::strHasNum(suburbNameStr) || CommonFunctions::strHasSymbol(suburbNameStr)) {
+					CommonFunctions::wrongInput(2);
+				}
+
+				else { //correct input breaking loop
+					break;
+				}
+			}
+
+			//address name
+			std::cout << "Enter Name (eg. home, work, etc.): ";
+			std::getline(std::cin, addressNameInput);
+
+
+			
+			while (1) {
+				
+				int addAddressChoice = displayMenu({ "Yes", "No" }, "ADD ADDRESS?", "\n\nNAME: " + addressNameInput + "\nADDRESS : " + streetNumber + " " + streetNameStr + ", " + suburbNameStr + ".", false, false, false, false, true, true, false, -1);
+
+				if (addAddressChoice == 1) { //yes
+					
+					AddressBook::addAddress("coolUser", streetNumber + " " + streetNameStr + ", " + suburbNameStr, addressNameInput);
+					break;
+				}
+				else { //no
+					break;
+
+				}
+			}
+		}
+
+		else { //selecting an address
+			bool addressEditMenuOn = true;
+			while (addressEditMenuOn) {
+				addressVec = *AddressBook::getAddresses("coolUser");
+				std::string streetNumber;
+				std::string streetNameStr;
+				std::string suburbNameStr;
+				int addAddressChoice;
+				std::string addressEditStr = addressVec[userChoice - 2].getAddress();
+				std::string addressNameEditStr = addressVec[userChoice - 2].getName();
+				std::string addressNameEditInput;
+				switch(displayMenu({ "Edit Address", "Edit Address Name", "Delete Address", "Go Back" }, "", "\n\nNAME: " + addressNameEditStr + "\nADDRESS: " + addressEditStr + "\n", false, true, false, false, true, true, false, 4)) {
+
+				case 1: //edit address
+
+					while (1) { //street number
+
+						std::cout << "\n\n\n";
+						std::cout << "Enter Street Number: ";
+						std::cin >> streetNumber;
+
+						//wrong input
+						if (CommonFunctions::strHasAlphabet(streetNumber) || CommonFunctions::strHasSymbol(streetNumber)) {
+							CommonFunctions::wrongInput(2);
+						}
+						else { //moving next var
+							break;
+						}
+					}
+
+					while (1) { //streetName
+
+						std::cout << "Enter Street Name: " << streetNumber << " ";
+						std::cin.ignore();
+						std::getline(std::cin, streetNameStr);
+
+						//wrong input
+						if (CommonFunctions::strHasNum(streetNameStr) || CommonFunctions::strHasSymbol(streetNameStr)) {
+							CommonFunctions::wrongInput(2);
+						}
+
+						else { //moving to next var
+							break;
+						}
+					}
+
+					while (1) { //suburb
+
+						std::cout << "Enter Suburb: ";
+						//std::cin.ignore();
+						std::getline(std::cin, suburbNameStr);
+
+						//wrong input
+						if (CommonFunctions::strHasNum(suburbNameStr) || CommonFunctions::strHasSymbol(suburbNameStr)) {
+							CommonFunctions::wrongInput(2);
+						}
+
+						else { //correct input breaking loop
+							break;
+						}
+					}
+
+					while (1) {
+
+						addAddressChoice = displayMenu({ "Yes", "No" }, "CONFIRM EDIT?", "\n\nADDRESS : " + streetNumber + " " + streetNameStr + ", " + suburbNameStr + ".", false, false, false, false, true, true, false, -1);
+
+						if (addAddressChoice == 1) { //yes
+							AddressBook::removeAddress("coolUser", addressEditStr);
+							AddressBook::addAddress("coolUser", streetNumber + " " + streetNameStr + ", " + suburbNameStr, addressNameEditStr);
+							AddressBook::save();
+							
+							break;
+						}
+						else { //no
+
+							break;
+
+						}
+					}
+					addressEditMenuOn = false;
+					break;
+
+				case 2: //edit address name
+					//address name
+					std::cout << "Enter Name (eg. home, work, etc.): ";
+					std::cin.ignore();
+					std::getline(std::cin, addressNameEditInput);					
+
+					AddressBook::removeAddress("coolUser", addressEditStr);
+					AddressBook::addAddress("coolUser", addressEditStr, addressNameEditInput);
+					AddressBook::save();
+					addressEditMenuOn = false;
+					break;
+
+				case 3: //delete address
+					addAddressChoice = displayMenu({ "Yes", "No" }, "CONFIRM DELETION?", "NAME: " + addressNameEditStr + "\nADDRESS: " + addressEditStr + "\n", false, true, false, false, true, true, false, -1);
+					if (addAddressChoice == 1) {
+						AddressBook::removeAddress("coolUser", addressEditStr);
+						AddressBook::save();
+						addressEditMenuOn = false;
+
+					}
+					break;
+
+				case 4: //go back
+					addressEditMenuOn = false;
+					break;
+				}
+
+			}
+
+		}
+
+
+	}
+
 
 }
 

@@ -2,7 +2,9 @@
 #include "CommonFunctions.h"
 #include "User.h"
 #include "Graphics.h"
+#include "AddressBook.h"
 #include <vector>
+#include <string>
 
 
 
