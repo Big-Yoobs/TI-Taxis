@@ -422,9 +422,77 @@ void Menu::mainMenu() {
 }
 
 void Menu::bookATrip() {
-	
-	
+	User& user = Session::getUser();
+	std::vector<Address> addressBook;
+	CommonFunctions::returnClearScreen();
+	for (Address address : *AddressBook::getAddresses(user.getStringId())) {
+		addressBook.push_back(address);
+		if (addressBook.size() == 1) std::cout << "Your saved addresses:\n\n";
+		std::cout << "\t" << address.getName() << "\n\t" << address.getAddress() << "\n\n";
+	}
+	std::cout << "Enter an address or a place from your address book: ";
+	std::string userAddress;
+	std::getline(std::cin, userAddress);
+	std::string lowercaseAddress = CommonFunctions::lowerCase(userAddress);
+	bool foundAddress = false;
+	for (Address address : addressBook) {
+		if (lowercaseAddress == CommonFunctions::lowerCase(address.getAddress()) || lowercaseAddress == CommonFunctions::lowerCase(address.getName())) {
+			userAddress = address.getAddress();
+			foundAddress = true;
+			break;
+		}
+	}
+	if (!foundAddress) {
+		// check address database here
+	}
 
+	ConfigFile file("MIDI/tokyo-drift.json");
+	struct Note {
+		bool audible;
+		int frequency;
+		int duration;
+		Note(bool audible, int frequency, int duration) {
+			this->audible = audible;
+			this->frequency = frequency;
+			this->duration = duration;
+		}
+	};
+	std::vector<Note> notes;
+	for (Json object : file.get()) {
+		if (object["type"].get<std::string>() == "note") {
+			notes.push_back(Note(
+				true,
+				object["frequency"].get<int>(),
+				object["duration"].get<int>()
+			));
+		} else {
+			notes.push_back(Note(
+				false,
+				0,
+				object["duration"].get<int>()
+			));
+		}
+	}
+	float speed = 1;
+
+	std::vector<std::string> animationFrames = { "user1", "user2", "user3" }; // put the ASCII art animation frames in here
+	for (int i = 0, frame = 0; i < notes.size(); i++) {
+		Note note = notes[i];
+		if (note.audible) {
+			CommonFunctions::returnClearScreen();
+			CommonFunctions::centerGraphic(Graphics::get(animationFrames[frame++ % animationFrames.size()]));
+			std::cout << "\n\n";
+			for (std::string entry : std::vector<std::string>{ "A taxi is on its way!", userAddress }) {
+				std::cout << "\n";
+				int spaces = CommonFunctions::getCenterSpacesStr(entry);
+				for (int i = 0; i < spaces; i++) std::cout << " ";
+				std::cout << entry;
+			}
+			Beep(note.frequency, note.duration * speed);
+		} else {
+			CommonFunctions::waitTime(note.duration * speed);
+		}
+	}
 }
 
 void Menu::openAddressBook() {
@@ -718,7 +786,6 @@ void Menu::settingsMenu() {
 }
 
 void Menu::startScreen() {
-
 	for (int i = 0; i < CommonFunctions::getCenterNLsStr(""); i++) {
 		std::cout << "\n";
 	}
