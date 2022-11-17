@@ -475,7 +475,13 @@ void Menu::bookATrip() {
 	}
 	float speed = 1;
 
-	std::vector<std::string> animationFrames = { "user1", "user2", "user3" }; // put the ASCII art animation frames in here
+	std::vector<std::string> animationFrames; // put the ASCII art animation frames in here
+	for (int i = 1; i <= 31; i++) {
+		animationFrames.push_back("driftAnim/drift" + std::to_string(i));
+	}
+	for (int i = 30; i > 0; i--) {
+		animationFrames.push_back("driftAnim/drift" + std::to_string(i));
+	}
 	for (int i = 0, frame = 0; i < notes.size(); i++) {
 		Note note = notes[i];
 		if (note.audible) {
