@@ -26,6 +26,12 @@ TripManager::TripManager(std::string filename, std::string userId) {
 				if (tripData.contains("distance")) trip.setDistance(tripData["distance"]);
 				if (tripData.contains("stage")) trip.setStage(static_cast<std::string>(tripData["stage"]));
 				if (tripData.contains("rating")) trip.setRating(tripData["rating"]);
+				if (tripData.contains("lostItems")) {
+					
+					for (Json item : tripData["lostItems"]) {
+						trip.addLostItem(item.get<std::string>());
+					}
+				}
 				if (Debug::isOn()) trip.printOverview();
 				trips.push_back(&trip);
 			} catch (int e) {
@@ -34,4 +40,8 @@ TripManager::TripManager(std::string filename, std::string userId) {
 		}
 	}
 	Debug::out("Finished loading TripManager!");
+}
+
+void TripManager::save() {
+	configFile->save();
 }

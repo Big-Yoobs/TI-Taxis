@@ -89,3 +89,13 @@ std::string Trip::getRatingString() {
 	if (rating != 2) out += "s";
 	return out;
 }
+
+
+std::vector<std::string> Trip::getLostItems() {
+	return lostItems;
+}
+
+Trip Trip::addLostItem(std::string lostItem) {
+	lostItems.push_back(lostItem);
+	return *this;
+}

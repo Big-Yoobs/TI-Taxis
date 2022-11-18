@@ -10,4 +10,5 @@ class TripManager {
 		std::vector<Trip*> trips;
 	public:
 		TripManager(std::string filename, std::string userId); // keeps records of all taxi trips done by user
+		void save();
 };

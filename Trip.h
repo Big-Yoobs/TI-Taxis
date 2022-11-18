@@ -17,7 +17,21 @@ class Trip {
 		long distance = -1;
 		TripStage stage = UNKNOWN;
 		int rating = -1;
+		std::vector<std::string> lostItems;
+
 	public:
+		
+		std::string getStageString();
+		std::string getRatingString();
+			
+		Trip printOverview();
+
+		Trip();
+
+		//getters
+		std::vector<std::string> getLostItems();
+
+		//setters
 		Trip setNumberPlate(std::string numberPlate);
 		Trip setDriver(std::string driver);
 		Trip setOrigin(std::string origin);
@@ -26,11 +40,7 @@ class Trip {
 		Trip setStage(TripStage stage);
 		Trip setStage(std::string stage);
 		Trip setRating(float rating);
+		Trip addLostItem(std::string lostItem);
 
-		std::string getStageString();
-		std::string getRatingString();
-			
-		Trip printOverview();
 
-		Trip();
 };

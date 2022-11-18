@@ -733,7 +733,7 @@ void Menu::userMenu() {
 	while (userMenuOn) {
 
 		//Graphic->user1 make this dynamic with the actual user's portrait please
-		switch (displayMenu({ "Change User Details", "Settings", "Go Back" }, Session::getUser().getFirstName(), Graphics::get("user" + std::to_string(Session::getUser().getPortraitId())), true, false, false, true, false, false, true, 3)) {
+		switch (displayMenu({ "Change User Details", "Trip History", "Settings", "Go Back" }, Session::getUser().getFirstName(), Graphics::get("user" + std::to_string(Session::getUser().getPortraitId())), true, false, false, true, false, false, true, 3)) {
 
 		case 1: //Change User Details
 			CommonFunctions::acceptSound();
