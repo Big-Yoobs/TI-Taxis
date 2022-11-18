@@ -3,6 +3,7 @@
 #include <vector>
 
 TripManager::TripManager(std::string filename, std::string userId) {
+	this->userId = userId;
 	configFile = new ConfigFile(filename);
 	if (!configFile->fileExists()) {
 		Debug::out("TripManager file did not exist!");
@@ -33,7 +34,7 @@ TripManager::TripManager(std::string filename, std::string userId) {
 					}
 				}
 				if (Debug::isOn()) trip.printOverview();
-				trips.push_back(&trip);
+				trips.push_back(trip);
 			} catch (int e) {
 				Debug::out("Could not create trip object from JSON! " + tripData.dump());
 			}
@@ -43,5 +44,15 @@ TripManager::TripManager(std::string filename, std::string userId) {
 }
 
 void TripManager::save() {
+	std::vector<Json> list;
+	for (Trip trip : trips) {
+		list.push_back(trip.getAsJson());
+	}
+	Json out = list;
+	configFile->get()[userId] = out;
 	configFile->save();
+}
+
+std::vector<Trip>* TripManager::getTrips() {
+	return &trips;
 }

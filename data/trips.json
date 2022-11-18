@@ -4,16 +4,24 @@
             "destination": "destination address",
             "distance": 7030,
             "driver": "Navid",
+            "lostItems": [],
             "numberPlate": "balls",
             "origin": "origin address",
-            "rating": 3,
+            "rating": 5,
             "stage": "ended"
         },
         {
+            "destination": "Unknown",
+            "distance": -1,
             "driver": "Your mum",
-            "numberPlate": "KAJ406"
+            "lostItems": [],
+            "numberPlate": "KAJ406",
+            "origin": "Unknown",
+            "rating": -1,
+            "stage": "unknown"
         }
     ],
+    "coolUser": [],
     "user--1": [],
     "user-10641": [],
     "user-1111": [],

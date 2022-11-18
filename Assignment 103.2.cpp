@@ -20,6 +20,14 @@
 int main() {
     Debug::setDebug(true);
 
+    TripManager tripManager2("trips.json", "CoolUser");
+
+    std::vector<Trip>* trips = tripManager2.getTrips(); // get and manage trip vector like this
+    tripManager2.save();
+
+
+
+
     AddressBook::reload(); // should be called at start of program
 
     //AddressBook::getAddresses("coolUser"); // get addressbook for user

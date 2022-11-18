@@ -23,7 +23,15 @@ Trip Trip::printOverview() {
 	std::cout << "To: " << destination << "\n";
 	std::cout << "Distance: " << (distance == -1 ? "Unknown" : CommonFunctions::formatDistance(distance)) << "\n";
 	std::cout << "Stage: " << getStageString() << "\n";
-	if (stage == ENDED) std::cout << "Rating: " << getRatingString() << "\n";
+	if (stage == ENDED) {
+		std::cout << "Rating: " << getRatingString() << "\n";
+		if (lostItems.size()) {
+			std::cout << "Lost items:\n";
+			for (std::string item : lostItems) {
+				std::cout << "\t" << item << "\n";
+			}
+		}
+	}
 	
 	return *this;
 }
@@ -63,7 +71,7 @@ Trip Trip::setStage(std::string stage) {
 }
 
 Trip Trip::setRating(float rating) {
-	this->rating = round(CommonFunctions::clamp(rating * 2, 0.0, 10.0));
+	this->rating = rating == -1 ? -1 : round(CommonFunctions::clamp(rating * 2, 0.0, 10.0));
 	return *this;
 }
 
@@ -98,4 +106,21 @@ std::vector<std::string> Trip::getLostItems() {
 Trip Trip::addLostItem(std::string lostItem) {
 	lostItems.push_back(lostItem);
 	return *this;
+}
+
+Json Trip::getAsJson() {
+	Json out;
+	out["numberPlate"] = numberPlate;
+	out["driver"] = driver;
+	out["origin"] = origin;
+	out["destination"] = destination;
+	out["distance"] = distance;
+	out["stage"] = std::vector<std::string>{"pending", "in_progress", "ended", "unknown"}[stage];
+	out["rating"] = rating < 0 ? -1 : (rating / 2);
+	out["lostItems"] = lostItems;
+	return out;
+}
+
+std::string Trip::getNumberPlate() {
+	return numberPlate;
 }

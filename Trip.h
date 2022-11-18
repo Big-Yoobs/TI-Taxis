@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "ConfigFile.h";
 
 enum TripStage {
 	PENDING,
@@ -21,8 +22,6 @@ class Trip {
 
 	public:
 		
-		std::string getStageString();
-		std::string getRatingString();
 			
 		Trip printOverview();
 
@@ -30,6 +29,11 @@ class Trip {
 
 		//getters
 		std::vector<std::string> getLostItems();
+		std::string getStageString();
+		std::string getRatingString();
+		std::string getNumberPlate();
+
+		Json getAsJson();
 
 		//setters
 		Trip setNumberPlate(std::string numberPlate);
