@@ -733,19 +733,25 @@ void Menu::userMenu() {
 	while (userMenuOn) {
 
 		//Graphic->user1 make this dynamic with the actual user's portrait please
-		switch (displayMenu({ "Change User Details", "Trip History", "Settings", "Go Back" }, Session::getUser().getFirstName(), Graphics::get("user" + std::to_string(Session::getUser().getPortraitId())), true, false, false, true, false, false, true, 3)) {
+		switch (displayMenu({ "Change User Details", "Trip History", "Settings", "Go Back" }, Session::getUser().getFirstName(), Graphics::get("user" + std::to_string(Session::getUser().getPortraitId())), true, false, false, true, false, false, true, 4)) {
 
 		case 1: //Change User Details
 			CommonFunctions::acceptSound();
 			userDetailsMenu();
 			break;
 
-		case 2: //settings
+		case 2: //Trip History
+			CommonFunctions::acceptSound();
+			tripHistoryMenu();
+			break;
+
+
+		case 3: //settings
 			CommonFunctions::acceptSound();
 			settingsMenu();
 			break;
 
-		case 3: //Go Back
+		case 4: //Go Back
 			CommonFunctions::returnClearScreen();
 			CommonFunctions::negativeSound();
 			userMenuOn = false;
@@ -854,3 +860,59 @@ void Menu::userDetailsMenu() {
 	}
 }
 
+
+void Menu::tripHistoryMenu() {
+	while (1) {
+		//setting vars
+		TripManager tripManager("trips.json", Session::getUser().getStringId());
+		std::vector<Trip>* trips = tripManager.getTrips();
+		std::vector<std::string> tripsStrs;
+
+		//adding necessary data to vector for displayMenu
+		for (Trip trip : *trips) {
+			tripsStrs.push_back(trip.getDriver() + " | " + trip.getOrigin() + " - " + trip.getDestination());
+		}
+		tripsStrs.push_back("Go Back");
+
+		//displaying menu
+		int userChoice = displayMenu(tripsStrs, "TRIP HISTORY", "", true, false, false, false, false, false, false, size(tripsStrs));
+
+		//acting on user input
+		if (userChoice == size(tripsStrs)) { //go back
+			break;
+		}
+
+		else { //selecting an item
+
+			//adding all the details of a trip to a string we can use in the displayMenu graphic param
+			std::string tripDetails = "\n\n\n\tDRIVER: " + (*trips)[userChoice - 1].getDriver() + "\n\tLICENSE PLATE: " + (*trips)[userChoice - 1].getNumberPlate() + "\n\tFROM: " + (*trips)[userChoice - 1].getOrigin() + " - TO: " + (*trips)[userChoice - 1].getDestination() + "\n\tDISTANCE: " + (*trips)[userChoice - 1].getDistanceStr() + "\n\tCOST: $" + (*trips)[userChoice - 1].getCostStr() + "\n\tRATING: " + (*trips)[userChoice - 1].getRatingString() +"\n";
+			if (size((*trips)[userChoice - 1].getLostItems()) > 0) {
+				tripDetails = tripDetails + "\n\tLOST ITEMS: ";
+				for (int i = 0; i < size((*trips)[userChoice - 1].getLostItems()); i++) {
+					tripDetails = tripDetails + (*trips)[userChoice - 1].getLostItems()[i] + " | ";
+				}
+			}
+			std::string lostItemInput;
+			switch (displayMenu({ "Add Lost Item", "Go Back" }, "TRIP OVERVIEW", tripDetails, true, false, false, false, false, false, true, 2)) {
+
+			case 1: //add lost item
+				
+				std::cout << "\n\n\n\tEnter Lost Item: ";
+				std::getline(std::cin, lostItemInput);
+				(*trips)[userChoice - 1].addLostItem(lostItemInput);
+				tripManager.save();
+				while (GetKeyState(VK_RETURN) & 0x8000) {}
+				break;
+
+			case 2: //go back
+
+				break;
+
+			}
+
+		}
+
+	}
+
+
+}

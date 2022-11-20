@@ -15,6 +15,7 @@ class Trip {
 		std::string driver = "Unknown";
 		std::string origin = "Unknown";
 		std::string destination = "Unknown";
+		float cost;
 		long distance = -1;
 		TripStage stage = UNKNOWN;
 		int rating = -1;
@@ -32,6 +33,12 @@ class Trip {
 		std::string getStageString();
 		std::string getRatingString();
 		std::string getNumberPlate();
+		float getCost();
+		std::string getDriver();
+		std::string getOrigin();
+		std::string getDestination();
+		std::string getDistanceStr();
+		std::string getCostStr();
 
 		Json getAsJson();
 
@@ -44,6 +51,7 @@ class Trip {
 		Trip setStage(TripStage stage);
 		Trip setStage(std::string stage);
 		Trip setRating(float rating);
+		Trip setCost(float cost);
 		Trip addLostItem(std::string lostItem);
 
 

@@ -16,13 +16,13 @@ Trip Trip::setDriver(std::string driver) {
 }
 
 Trip Trip::printOverview() {
-	std::cout << "\n\nTrip Overview\n";
-	std::cout << "Driver: " << driver << "\n";
-	std::cout << "Number Plate: " << numberPlate << "\n";
-	std::cout << "From: " << origin << "\n";
-	std::cout << "To: " << destination << "\n";
-	std::cout << "Distance: " << (distance == -1 ? "Unknown" : CommonFunctions::formatDistance(distance)) << "\n";
-	std::cout << "Stage: " << getStageString() << "\n";
+	std::cout << "\n\n\tTrip Overview\n";
+	std::cout << "\tDriver: " << driver << "\n";
+	std::cout << "\tNumber Plate: " << numberPlate << "\n";
+	std::cout << "\tFrom: " << origin << "\n";
+	std::cout << "\tTo: " << destination << "\n";
+	std::cout << "\tDistance: " << (distance == -1 ? "Unknown" : CommonFunctions::formatDistance(distance)) << "\n";
+	std::cout << "\tStage: " << getStageString() << "\n";
 	if (stage == ENDED) {
 		std::cout << "Rating: " << getRatingString() << "\n";
 		if (lostItems.size()) {
@@ -75,6 +75,11 @@ Trip Trip::setRating(float rating) {
 	return *this;
 }
 
+Trip Trip::setCost(float cost) {
+	this->cost = cost;
+	return *this;
+}
+
 
 
 std::string Trip::getStageString() {
@@ -123,4 +128,28 @@ Json Trip::getAsJson() {
 
 std::string Trip::getNumberPlate() {
 	return numberPlate;
+}
+
+float Trip::getCost() {
+	return cost;
+}
+
+std::string Trip::getDriver() {
+	return driver;
+}
+
+std::string Trip::getOrigin() {
+	return origin;
+}
+
+std::string Trip::getDestination() {
+	return destination;
+}
+
+std::string Trip::getDistanceStr() {
+	return std::to_string(distance);
+}
+
+std::string Trip::getCostStr() {
+	return std::to_string(cost);
 }

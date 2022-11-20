@@ -3,6 +3,8 @@
 #include "User.h"
 #include "Graphics.h"
 #include "AddressBook.h"
+#include "TripManager.h"
+#include "Trip.h"
 #include <vector>
 #include <string>
 
@@ -29,6 +31,8 @@ namespace Menu {
 
 	//display the user details menu
 	void userDetailsMenu();
+
+	void tripHistoryMenu();
 
 	//display the settings menu
 	void settingsMenu();
