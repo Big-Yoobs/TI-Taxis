@@ -123,6 +123,7 @@ Json Trip::getAsJson() {
 	out["stage"] = std::vector<std::string>{"pending", "in_progress", "ended", "unknown"}[stage];
 	out["rating"] = rating < 0 ? -1 : (rating / 2);
 	out["lostItems"] = lostItems;
+	out["cost"] = cost;
 	return out;
 }
 
