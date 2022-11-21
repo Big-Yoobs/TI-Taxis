@@ -2,6 +2,7 @@
 #include "Settings.h"
 #include "CommonFunctions.h"
 #include "Session.h"
+#include "DriverIndex.h"
 
 //functions
 
@@ -52,13 +53,17 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 			int menuSpacesV = 0;
 			if (!isVerticle && isMenuCentered) { //horizontal
 				int menuSpacesH = CommonFunctions::getCenterSpacesVec(menuItems);
-				for (int i = 0; i < menuSpacesH; i++) { std::cout << " "; }
+				std::string spaces;
+				for (int i = 0; i < menuSpacesH; i++) spaces += " ";
+				std::cout << spaces;
 			}
 			if (!isVerticle && !isMenuCentered) { std::cout << "\t"; }
 			if (isVerticle && isMenuCentered) { //verticle
 
 				menuSpacesV = CommonFunctions::getCenterSpacesStr(menuItems[0]);
-				for (int i = 0; i < menuSpacesV; i++) { std::cout << " "; }
+				std::string spaces;
+				for (int i = 0; i < menuSpacesV; i++) spaces += " ";
+				std::cout << spaces;
 			}
 
 			for (int i = 0; i < menuItemSize; i++) {
@@ -66,7 +71,9 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 					if (isVerticle && isMenuCentered) {
 						menuSpacesV = CommonFunctions::getCenterSpacesStr(menuItems[i]);
 						if (i != 0) {
-							for (int i = 0; i < menuSpacesV; i++) { std::cout << " "; }
+							std::string spaces;
+							for (int i = 0; i < menuSpacesV; i++) spaces += " ";
+							std::cout << spaces;
 						}
 					}
 					if (isVerticle && !isMenuCentered && isAnimate) { std::cout << "\t"; }
@@ -77,7 +84,9 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 					if (isVerticle && isMenuCentered) {
 						menuSpacesV = CommonFunctions::getCenterSpacesStr(menuItems[i]);
 						if (i != 0) {
-							for (int i = 0; i < menuSpacesV; i++) { std::cout << " "; }
+							std::string spaces;
+							for (int i = 0; i < menuSpacesV; i++) spaces += " ";
+							std::cout << spaces;
 						}
 					}
 					if (!isMenuCentered && isVerticle) { std::cout << '\t'; }
@@ -187,10 +196,9 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 				std::cout << "\n\n\n";
 				if (isMenuTitleCentered) { //centered horizontally
 					int titleSpaces = CommonFunctions::getCenterSpacesStr(menuTitle);
-					for (int i = 0; i < titleSpaces; i++) {
-						std::cout << " ";
-					}
-					std::cout << menuTitle;
+					std::string spaces;
+					for (int i = 0; i < titleSpaces; i++) spaces += " ";
+					std::cout << spaces + menuTitle;
 				}
 				else { //not centered
 					std::cout << "\t" << menuTitle;
@@ -203,7 +211,9 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 			if (!isMenuCentered) { std::cout << "\t"; } //tabbing first element in our menu
 			if (isMenuCentered && !isVerticle) {
 				menuSpacesHD = (CommonFunctions::getCenterSpacesVec(menuItems) - size(menuItems) - size(menuItems));
-				for (int i = 0; i < menuSpacesHD; i++) { std::cout << " "; }
+				std::string spaces;
+				for (int i = 0; i < menuSpacesHD; i++) spaces += " ";
+				std::cout << spaces;
 			}
 			for (int i = 0; i < size(menuItems); i++) {
 				if (isVerticle) {
@@ -217,7 +227,9 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 							if (CommonFunctions::getCenterSpacesStr(menuItems[i]) > menuSpacesVD) { menuSpacesVD = CommonFunctions::getCenterSpacesStr(menuItems[i]); }
 						}
 						menuSpacesVD = menuSpacesVD - menuSpacesVDSUB;
-						for (int i = 0; i < menuSpacesVD + 1; i++) { std::cout << " "; }
+						std::string spaces;
+						for (int i = 0; i < menuSpacesVD; i++) spaces += " ";
+						std::cout << spaces;
 					}
 				}
 				else if (!isVerticle && i != 0) { std::cout << " | "; }
@@ -421,16 +433,15 @@ void Menu::mainMenu() {
 	}
 }
 
-void Menu::bookATrip() {
-	User& user = Session::getUser();
+std::string Menu::getAddress(std::vector<Address>* userAddressBook, std::string message) {
 	std::vector<Address> addressBook;
 	CommonFunctions::returnClearScreen();
-	for (Address address : *AddressBook::getAddresses(user.getStringId())) {
+	for (Address address : *userAddressBook) {
 		addressBook.push_back(address);
 		if (addressBook.size() == 1) std::cout << "Your saved addresses:\n\n";
 		std::cout << "\t" << address.getName() << "\n\t" << address.getAddress() << "\n\n";
 	}
-	std::cout << "Enter an address or a place from your address book: ";
+	std::cout << "Enter an address or a place from your address book. \n\n" << message << " ";
 	std::string userAddress;
 	std::getline(std::cin, userAddress);
 	std::string lowercaseAddress = CommonFunctions::lowerCase(userAddress);
@@ -445,6 +456,24 @@ void Menu::bookATrip() {
 	if (!foundAddress) {
 		// check address database here
 	}
+	return userAddress;
+}
+
+void Menu::bookATrip() {
+	User& user = Session::getUser();
+	std::vector<Address>* addressBook = AddressBook::getAddresses(user.getStringId());
+	std::string userAddress = getAddress(addressBook, "Enter where you'd like to be picked up:");
+	std::string userDestination;
+	do {
+		userDestination = getAddress(addressBook, "Enter where you'd like to go:");
+		if (userDestination == userAddress) {
+			userDestination.clear();
+			std::cout << "\n\nDestination and current location cannot be the same!\n\n\n";
+			CommonFunctions::continueInput(2);
+		}
+	} while (userDestination.empty());
+
+	Driver driver = DriverIndex::getFreeDriver();
 
 	ConfigFile file("MIDI/tokyo-drift.json");
 	struct Note {
@@ -488,7 +517,7 @@ void Menu::bookATrip() {
 			CommonFunctions::returnClearScreen();
 			CommonFunctions::centerGraphic(Graphics::get(animationFrames[frame++ % animationFrames.size()]));
 			std::cout << "\n\n";
-			for (std::string entry : std::vector<std::string>{ "A taxi is on its way!", userAddress }) {
+			for (std::string entry : std::vector<std::string>{ "A taxi is on its way!", "Picking you up from " + userAddress, "Taking you to " + userDestination, "Driver: " + driver.getNumberPlate() + " - " + driver.getName()}) {
 				std::cout << "\n";
 				int spaces = CommonFunctions::getCenterSpacesStr(entry);
 				for (int i = 0; i < spaces; i++) std::cout << " ";
@@ -499,6 +528,36 @@ void Menu::bookATrip() {
 			CommonFunctions::waitTime(note.duration * speed);
 		}
 	}
+	Trip trip;
+	trip.setCost((rand() % 16) + 10);
+	trip.setDestination(userDestination);
+	trip.setDriver(driver.getName());
+	trip.setNumberPlate(driver.getNumberPlate());
+	trip.setOrigin(userAddress);
+	trip.setStage(ENDED);
+	trip.setDistance(rand());
+	TripManager tripManager("trips.json", user.getStringId());
+	float rating;
+	CommonFunctions::returnClearScreen();
+	std::cout << "You have arrived at " << userDestination << "!\n\n";
+	while (1) {
+		std::cout << "Please rate your experience out of five : ";
+		std::string input;
+		std::cin >> input;
+		try {
+			rating = std::stof(input);
+			break;
+		} catch (...) {
+			std::cout << "\n\nThat's not a valid rating!\n\n\n";
+			CommonFunctions::continueInput(2);
+			CommonFunctions::returnClearScreen();
+		}
+	}
+	trip.setRating(rating);
+	tripManager.getTrips()->push_back(trip);
+
+	tripManager.save();
+
 }
 
 void Menu::openAddressBook() {

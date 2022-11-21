@@ -18,44 +18,21 @@
 #include "AddressBook.h"
 
 int main() {
-    Debug::setDebug(true);
-
-    TripManager tripManager2("trips.json", "CoolUser");
-
-    std::vector<Trip>* trips = tripManager2.getTrips(); // get and manage trip vector like this
-    tripManager2.save();
-
-
-
+    Debug::setDebug(false);
 
     AddressBook::reload(); // should be called at start of program
-
-    //AddressBook::getAddresses("coolUser"); // get addressbook for user
-    //
-    //AddressBook::addAddress("coolUser", "6 Beach Rd", "Home"); // add address to addressbook (leave third parameter empty if unnamed)
-
-    //AddressBook::renameAddress("coolUser", "6 Beach Rd", "Work"); // rename address in addressbook (set third parameter to "" if unnamed)
-
-    //AddressBook::save(); // save to local file
-
     srand(time(NULL));
     Session::newSession(); // creates new user instance
+    CommonFunctions::resetColors(); // add colours to the terminal
+    Menu::startScreen(); // fullscreen prompt
 
-    //running the program
-    CommonFunctions::resetColors();
+    //Session::getUser().signIn("isaiah@eyezah.com", "Password1@"); // temporary login bypass
+    Menu::iniLoginMenu(); // wait for user login
     
-    Menu::startScreen();
-
-    //Menu::iniLoginMenu();
-
-    //Session::getUser().loadFromFile("isaiah@eyezah.com"); // logs you in as an existing user without verification
-    Session::getUser().signIn("isaiah@eyezah.com", "Password1@");
-
-    TripManager tripManager("trips.json", Session::getUser().getStringId());
-    
-    Settings::setQuit(false);
+    Settings::setQuit(false); // starts lifespan of program
     CommonFunctions::centerGraphicLineAnim2(Graphics::get("main"), 20); //animation
-    while (!Settings::getQuit()) {
-        Menu::mainMenu();
+    while (!Settings::getQuit()) { // program loop
+        Menu::mainMenu(); // main menu
     }
+    // program ends when previous loop ends
 }

@@ -43,4 +43,6 @@ namespace Menu {
 
 	void openAddressBook();
 
+	std::string getAddress(std::vector<Address>* addressBook, std::string message);
+
 };

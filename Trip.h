@@ -15,7 +15,7 @@ class Trip {
 		std::string driver = "Unknown";
 		std::string origin = "Unknown";
 		std::string destination = "Unknown";
-		float cost;
+		float cost = 0;
 		long distance = -1;
 		TripStage stage = UNKNOWN;
 		int rating = -1;

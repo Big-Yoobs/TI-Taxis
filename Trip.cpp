@@ -24,11 +24,11 @@ Trip Trip::printOverview() {
 	std::cout << "\tDistance: " << (distance == -1 ? "Unknown" : CommonFunctions::formatDistance(distance)) << "\n";
 	std::cout << "\tStage: " << getStageString() << "\n";
 	if (stage == ENDED) {
-		std::cout << "Rating: " << getRatingString() << "\n";
+		std::cout << "\tRating: " << getRatingString() << "\n";
 		if (lostItems.size()) {
-			std::cout << "Lost items:\n";
+			std::cout << "\tLost items:\n";
 			for (std::string item : lostItems) {
-				std::cout << "\t" << item << "\n";
+				std::cout << "\t\t" << item << "\n";
 			}
 		}
 	}
@@ -121,6 +121,7 @@ Json Trip::getAsJson() {
 	out["destination"] = destination;
 	out["distance"] = distance;
 	out["stage"] = std::vector<std::string>{"pending", "in_progress", "ended", "unknown"}[stage];
+	CommonFunctions::continueInput(2);
 	out["rating"] = rating < 0 ? -1 : (rating / 2);
 	out["lostItems"] = lostItems;
 	out["cost"] = cost;
