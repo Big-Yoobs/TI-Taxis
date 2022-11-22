@@ -1,0 +1,38 @@
+	CONTROLS##########################################################
+
+		Thomas & Isaiah Taxis has two control modes; Control & Cin.
+		With Cin you enter the numerical value asscioated with each menu 
+		item and with Control you use the following keyboard controls:
+
+		Directions: use WASD or UP,DOWN,LEFT,RIGHT arrow keys to navigate
+		menus.
+		Accept: Enter/Return & Spacebar.
+		Decline: Backspace.
+
+		In {UserName} > Settings menu you are able to choose which you
+		you would like to be your primary control mode. Default it is 
+		Control. NOTE: In some instances you will have to use a mode 
+		different from the one you selected for certain menus.
+
+
+	ADDRESS BOOK#####################################################
+
+		You can save addresses in the address book giving you a quick way
+		to remember addresses you'd like to visit again.
+
+
+	LOST ITEMS#######################################################
+
+		If you lost a possesion during a trip you can report this by
+		going to Trip History in the {UserName} menu item from the 
+		main menu and selecting a trip you have been on to report a lost 
+		item.
+
+
+	ABOUT############################################################
+
+		Thomas & Isaiah Taxis was made by Thomas Richards & Isaiah Meek.
+		For Yoobee Colleges (2022). 
+		Using libraries by Niels Lohmann (jsoncpp),
+		Baltasar García Perez-Schofield (cscrutil) and various C++ and
+		Windows libraries.

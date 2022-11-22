@@ -264,7 +264,7 @@ void Menu::iniLoginMenu() {
 	while (iniLoginMenuLoop) {
 
 
-		switch (displayMenu({ "Login", "Sign Up", "Exit" }, "BALLS TAXIS", Graphics::get("login"), true, true, false, false, true, true, false, 3)) {
+		switch (displayMenu({ "Login", "Sign Up", "Exit" }, "THOMAS & ISAIAH TAXIS", Graphics::get("login"), true, true, false, false, true, true, false, 3)) {
 
 		case 1: //login
 			loginMenu();
@@ -402,6 +402,8 @@ void Menu::loginMenu() {
 
 void Menu::mainMenu() {
 
+	std::ifstream helpFile;
+	std::stringstream helpFileData;
 
 	switch (displayMenu({ "Book A Trip", "Address Book", Session::getUser().getFirstName(), "Help", "Exit"}, "MAIN MENU", Graphics::get("main"), false, true, false, false, true, true, false, -1)) {
 
@@ -422,6 +424,15 @@ void Menu::mainMenu() {
 
 	case 4: //Help
 		CommonFunctions::acceptSound();
+		CommonFunctions::returnClearScreen();
+		helpFile.open("data/help.txt");
+		if (!helpFile.is_open()) Debug::out("Couldn't open \"data/help.txt\"");
+		else {
+			helpFileData << helpFile.rdbuf();
+			helpFile.close();
+			std::cout << "\n\n\n" << helpFileData.str() << "\n\n";
+			CommonFunctions::continueInput(2);
+		}
 		break;
 
 	case 5: //exit

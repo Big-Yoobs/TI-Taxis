@@ -11,5 +11,18 @@
             "rating": 3,
             "stage": "ended"
         }
+    ],
+    "user-4815": [
+        {
+            "cost": 13.0,
+            "destination": "5 Parkstone Ave",
+            "distance": 8314,
+            "driver": "Giogi",
+            "lostItems": [],
+            "numberPlate": "HWN177",
+            "origin": "",
+            "rating": 3,
+            "stage": "ended"
+        }
     ]
 }
