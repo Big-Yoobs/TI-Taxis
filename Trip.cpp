@@ -121,7 +121,6 @@ Json Trip::getAsJson() {
 	out["destination"] = destination;
 	out["distance"] = distance;
 	out["stage"] = std::vector<std::string>{"pending", "in_progress", "ended", "unknown"}[stage];
-	CommonFunctions::continueInput(2);
 	out["rating"] = rating < 0 ? -1 : (rating / 2);
 	out["lostItems"] = lostItems;
 	out["cost"] = cost;

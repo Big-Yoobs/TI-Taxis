@@ -473,7 +473,12 @@ std::string Menu::getAddress(std::vector<Address>* userAddressBook, std::string 
 void Menu::bookATrip() {
 	User& user = Session::getUser();
 	std::vector<Address>* addressBook = AddressBook::getAddresses(user.getStringId());
-	std::string userAddress = getAddress(addressBook, "Enter where you'd like to be picked up:");
+	CommonFunctions::waitTime(1000);
+	std::string userAddress;
+	do {
+		CommonFunctions::returnClearScreen();
+		userAddress = getAddress(addressBook, "Enter where you'd like to be picked up:");
+	} while (userAddress.empty());
 	std::string userDestination;
 	do {
 		userDestination = getAddress(addressBook, "Enter where you'd like to go:");

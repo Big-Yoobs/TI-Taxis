@@ -10,6 +10,17 @@
             "origin": "aaa",
             "rating": 3,
             "stage": "ended"
+        },
+        {
+            "cost": 10.0,
+            "destination": "a",
+            "distance": 15887,
+            "driver": "Giogi",
+            "lostItems": [],
+            "numberPlate": "HCR333",
+            "origin": "8 Cooper St, Lansdowne",
+            "rating": 3,
+            "stage": "ended"
         }
     ],
     "user-4815": [
