@@ -6,7 +6,7 @@
 void User::setFirstName() {
 	while (10 == 10) { //first name
 		CommonFunctions::returnClearScreen();
-		CommonFunctions::centerGraphic("meme\nmeme");  //replace param contents with the sign up menu ascii art
+		CommonFunctions::centerGraphic("\n" + Graphics::get("name"));  //replace param contents with the sign up menu ascii art
 		std::cout << "\n\n\n";
 		for (int i = 0; i < CommonFunctions::getCenterSpacesStr("Enter First Name: "); i++) { std::cout << " "; }
 		std::cout << "Enter First Name: ";
@@ -27,7 +27,7 @@ void User::setFirstName() {
 void User::setLastName() {
 	while (25 == 25) { //last name
 		CommonFunctions::returnClearScreen();
-		CommonFunctions::centerGraphic("meme\nmeme");  //replace param contents with the sign up menu ascii art
+		CommonFunctions::centerGraphic("\n" + Graphics::get("name"));  //replace param contents with the sign up menu ascii art
 		std::cout << "\n\n\n";
 		for (int i = 0; i < CommonFunctions::getCenterSpacesStr("Enter Last Name: "); i++) { std::cout << " "; }
 		std::cout << "Enter Last Name: ";
@@ -45,9 +45,9 @@ void User::setLastName() {
 }
 
 void User::setEmail() {
-	while (30 == 30) { //email
+	while (1) { //email
 		CommonFunctions::returnClearScreen();
-		CommonFunctions::centerGraphic("meme\nmeme");  //replace param contents with the sign up menu ascii art
+		CommonFunctions::centerGraphic("\n" + Graphics::get("mail"));  //replace param contents with the sign up menu ascii art
 		std::cout << "\n\n\n";
 		for (int i = 0; i < CommonFunctions::getCenterSpacesStr("Enter Email: "); i++) { std::cout << " "; }
 		std::cout << "Enter Email: ";
@@ -187,7 +187,7 @@ void User::setPassword() {
 		bool passwordContainsErrors = false;
 		std::string passConfirm;
 		CommonFunctions::returnClearScreen();
-		CommonFunctions::centerGraphic("meme\nmeme");  //replace param contents with the sign up menu ascii art
+		CommonFunctions::centerGraphic("\n" + Graphics::get("password"));  //replace param contents with the sign up menu ascii art
 		std::cout << "\n\n\n";
 		for (int i = 0; i < CommonFunctions::getCenterSpacesStr("Enter Password (Min Length 8, Contain atleast 1: symbol and number): "); i++) { std::cout << " "; }
 		std::cout << "Enter Password (Min Length 8, Contain atleast 1: symbol and number): ";

@@ -4,5 +4,19 @@
             "address": "8 Cooper St, Lansdowne",
             "name": "meme"
         }
+    ],
+    "user-4815": [
+        {
+            "address": "33 Border Rd, Henderson",
+            "name": "Home"
+        },
+        {
+            "address": "10 City Rd, Auckland Central",
+            "name": "School"
+        },
+        {
+            "address": "183 Richmond Rd, Grey Lynn",
+            "name": "Church"
+        }
     ]
 }

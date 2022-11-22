@@ -8,7 +8,7 @@
         "firstName": "admin",
         "lastName": "admin",
         "password": "admin",
-        "portrait": 2
+        "portrait": 1
     },
     "user-11307": {
         "creditCardExpiryMonth": "",
@@ -60,9 +60,9 @@
         "creditCardLuckyNumbers": "",
         "creditCardNumber": "",
         "email": "THOMAS.DEHORSBURGH@GMAIL.COM",
-        "firstName": "Thomas",
-        "lastName": "Richards",
-        "password": "meme1488!",
+        "firstName": "Tommy",
+        "lastName": "Richy",
+        "password": "password1234%",
         "portrait": 2
     }
 }
