@@ -28,6 +28,7 @@ TripManager::TripManager(std::string filename, std::string userId) {
 				if (tripData.contains("stage")) trip.setStage(static_cast<std::string>(tripData["stage"]));
 				if (tripData.contains("rating")) trip.setRating(tripData["rating"]);
 				if (tripData.contains("cost")) trip.setCost(tripData["cost"]);
+				if (tripData.contains("complaint")) trip.setComplaint(tripData["complaint"]);
 				if (tripData.contains("lostItems")) {
 					
 					for (Json item : tripData["lostItems"]) {

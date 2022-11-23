@@ -128,4 +128,6 @@ namespace CommonFunctions {
 
 
 	std::string formatDistance(long distance); // format distance nicely
+
+	std::string formatPrice(float price);
 };

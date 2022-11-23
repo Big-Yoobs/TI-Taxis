@@ -76,7 +76,7 @@ int Menu::displayMenu(std::vector<std::string> menuItems, std::string menuTitle,
 							std::cout << spaces;
 						}
 					}
-					if (isVerticle && !isMenuCentered && isAnimate) { std::cout << "\t"; }
+					//if (isVerticle && !isMenuCentered && isAnimate) { std::cout << "\t"; }
 					if (isVerticle && !isMenuCentered) { std::cout << "\t"; }
 					CommonFunctions::highlightText(menuItems[i]);
 				}
@@ -336,7 +336,7 @@ void Menu::loginMenu() {
 				std::cout << " ";
 			}
 			std::cout << "No Email Matches Your Input...";
-			CommonFunctions::continueInput(2);
+			CommonFunctions::continueInput(3);
 			CommonFunctions::returnClearScreen();
 			switch (Menu::displayMenu({ "Try Again", "Go Back" }, "LOGIN", Graphics::get("login"), true, true, false, false, false, false, true, 2)) {
 
@@ -404,6 +404,8 @@ void Menu::mainMenu() {
 
 	std::ifstream helpFile;
 	std::stringstream helpFileData;
+
+	Settings::showCursor(!Settings::getControlMode());
 
 	switch (displayMenu({ "Book A Trip", "Address Book", Session::getUser().getFirstName(), "Help", "Exit"}, "MAIN MENU", Graphics::get("main"), false, true, false, false, true, true, false, -1)) {
 
@@ -570,10 +572,20 @@ void Menu::bookATrip() {
 		}
 	}
 	trip.setRating(rating);
+	if (trip.getRating() < 5) {
+		CommonFunctions::returnClearScreen();
+		std::cout << "Please enter any complaints you have: ";
+		std::string input;
+		std::cin.ignore();
+		CommonFunctions::waitTime(500);
+		std::getline(std::cin, input);
+		if (!input.empty()) {
+			trip.setComplaint(input);
+		}
+	}
 	tripManager.getTrips()->push_back(trip);
-
 	tripManager.save();
-
+	CommonFunctions::waitTime(500);
 }
 
 void Menu::openAddressBook() {
@@ -873,6 +885,7 @@ void Menu::settingsMenu() {
 }
 
 void Menu::startScreen() {
+	Settings::showCursor(false);
 	for (int i = 0; i < CommonFunctions::getCenterNLsStr(""); i++) {
 		std::cout << "\n";
 	}
@@ -889,8 +902,6 @@ void Menu::startScreen() {
 	if (Settings::getControlMode()) { //hiding our cursor after going fullscreen
 		Settings::showCursor(false);
 	}
-
-
 }
 
 void Menu::userDetailsMenu() {
@@ -960,11 +971,16 @@ void Menu::tripHistoryMenu() {
 		else { //selecting an item
 
 			//adding all the details of a trip to a string we can use in the displayMenu graphic param
-			std::string tripDetails = "\n\n\n\tDRIVER: " + (*trips)[userChoice - 1].getDriver() + "\n\tLICENSE PLATE: " + (*trips)[userChoice - 1].getNumberPlate() + "\n\tFROM: " + (*trips)[userChoice - 1].getOrigin() + " - TO: " + (*trips)[userChoice - 1].getDestination() + "\n\tDISTANCE: " + (*trips)[userChoice - 1].getDistanceStr() + "\n\tCOST: $" + (*trips)[userChoice - 1].getCostStr() + "\n\tRATING: " + (*trips)[userChoice - 1].getRatingString() +"\n";
+			std::string tripDetails = "\n\n\n\tDRIVER: " + (*trips)[userChoice - 1].getDriver() + "\n\tLICENSE PLATE: " + (*trips)[userChoice - 1].getNumberPlate() + "\n\tFROM: " + (*trips)[userChoice - 1].getOrigin() + " - TO: " + (*trips)[userChoice - 1].getDestination() + "\n\tDISTANCE: " + CommonFunctions::formatDistance(std::stof((*trips)[userChoice - 1].getDistanceStr())) + "\n\tCOST: $" + CommonFunctions::formatPrice(std::stof((*trips)[userChoice - 1].getCostStr())) + "\n\tRATING: " + (*trips)[userChoice - 1].getRatingString() +"\n";
+			std::string complaint = (*trips)[userChoice - 1].getComplaint();
+			if (!complaint.empty()) {
+				tripDetails += "\tCOMPLAINT: " + complaint + "\n";
+			}
 			if (size((*trips)[userChoice - 1].getLostItems()) > 0) {
 				tripDetails = tripDetails + "\n\tLOST ITEMS: ";
 				for (int i = 0; i < size((*trips)[userChoice - 1].getLostItems()); i++) {
-					tripDetails = tripDetails + (*trips)[userChoice - 1].getLostItems()[i] + " | ";
+					if (i) tripDetails += " | ";
+					tripDetails += (*trips)[userChoice - 1].getLostItems()[i];
 				}
 			}
 			std::string lostItemInput;
@@ -973,14 +989,17 @@ void Menu::tripHistoryMenu() {
 			case 1: //add lost item
 				
 				std::cout << "\n\n\n\tEnter Lost Item: ";
+				CommonFunctions::waitTime(500);
 				std::getline(std::cin, lostItemInput);
-				(*trips)[userChoice - 1].addLostItem(lostItemInput);
-				tripManager.save();
+				if (!lostItemInput.empty()) {
+					(*trips)[userChoice - 1].addLostItem(lostItemInput);
+					tripManager.save();
+				}
 				while (GetKeyState(VK_RETURN) & 0x8000) {}
 				break;
 
 			case 2: //go back
-
+				CommonFunctions::waitTime(500);
 				break;
 
 			}

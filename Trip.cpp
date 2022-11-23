@@ -103,6 +103,10 @@ std::string Trip::getRatingString() {
 	return out;
 }
 
+float Trip::getRating() {
+	return rating / 2.0;
+}
+
 
 std::vector<std::string> Trip::getLostItems() {
 	return lostItems;
@@ -110,6 +114,11 @@ std::vector<std::string> Trip::getLostItems() {
 
 Trip Trip::addLostItem(std::string lostItem) {
 	lostItems.push_back(lostItem);
+	return *this;
+}
+
+Trip Trip::setComplaint(std::string complaint) {
+	this->complaint = complaint;
 	return *this;
 }
 
@@ -124,6 +133,7 @@ Json Trip::getAsJson() {
 	out["rating"] = rating < 0 ? -1 : (rating / 2);
 	out["lostItems"] = lostItems;
 	out["cost"] = cost;
+	out["complaint"] = complaint;
 	return out;
 }
 
@@ -153,4 +163,8 @@ std::string Trip::getDistanceStr() {
 
 std::string Trip::getCostStr() {
 	return std::to_string(cost);
+}
+
+std::string Trip::getComplaint() {
+	return complaint;
 }

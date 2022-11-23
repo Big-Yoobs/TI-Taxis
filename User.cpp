@@ -225,7 +225,7 @@ void User::setPassword() {
 
 		if (!passwordContainsErrors) {
 			CommonFunctions::returnClearScreen();
-			CommonFunctions::centerGraphic("meme\nmeme");  //replace param contents with the sign up menu ascii art
+			CommonFunctions::centerGraphic("\n" + Graphics::get("password"));  //replace param contents with the sign up menu ascii art
 			std::cout << "\n\n\n";
 			for (int i = 0; i < CommonFunctions::getCenterSpacesStr("Confirm Password: "); i++) { std::cout << " "; }
 			std::cout << "Confirm Password: ";

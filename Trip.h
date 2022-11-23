@@ -20,6 +20,7 @@ class Trip {
 		TripStage stage = UNKNOWN;
 		int rating = -1;
 		std::vector<std::string> lostItems;
+		std::string complaint;
 
 	public:
 		
@@ -39,6 +40,8 @@ class Trip {
 		std::string getDestination();
 		std::string getDistanceStr();
 		std::string getCostStr();
+		std::string getComplaint();
+		float getRating();
 
 		Json getAsJson();
 
@@ -53,6 +56,7 @@ class Trip {
 		Trip setRating(float rating);
 		Trip setCost(float cost);
 		Trip addLostItem(std::string lostItem);
+		Trip setComplaint(std::string complaint);
 
 
 };

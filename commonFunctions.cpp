@@ -71,7 +71,7 @@ void CommonFunctions::continueInput(int promptType) {
 	case 2: //back
 
 		if (Settings::getControlMode()) {
-			std::cout << "\tPress Back to Return.";
+			std::cout << "\tPress Backspace to Return.";
 			waitTime(500); //slight pause so we cant just instantly exit the func
 			while (1) { //stuck in loop until the user presses one of the button
 				if (GetKeyState(VK_BACK) & 0x8000) {
@@ -88,6 +88,32 @@ void CommonFunctions::continueInput(int promptType) {
 			std::cin >> tempInput;
 			
 		}
+		break;
+
+	case 3:
+
+		if (Settings::getControlMode()) {
+			std::cout << "\n\n\n";
+			for (int i = 0; i < CommonFunctions::getCenterSpacesStr("Press Back to Return."); i++) {
+				std::cout << " ";
+			}
+			std::cout << "Press Back to Return.";
+			waitTime(500); //slight pause so we cant just instantly exit the func
+			while (1) { //stuck in loop until the user presses one of the button
+				if (GetKeyState(VK_BACK) & 0x8000) {
+					break;
+				}
+			}
+			waitTime(500); //adding a pause and flushing the buffer so our key presses dont carry over to the next function
+			FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+		} else { //cin mode
+
+			std::cout << "\tEnter Any Character to Return..\n\n";
+			std::cout << "\tEnter Input: ";
+			std::cin >> tempInput;
+
+		}
+		break;
 	}
 }
 
@@ -523,7 +549,7 @@ long CommonFunctions::clamp(long value, long lower, long higher) {
 
 
 std::string CommonFunctions::formatDistance(long distance) {
-	if (distance < 1000) return distance + "m"; // distance isn't 1km, display in meters
+	if (distance < 1000) return std::to_string(distance) + "m"; // distance isn't 1km, display in meters
 	double newDistance = round(distance / 10) / 100; // reduce distance in km to 2 decimal places
 	int decimal = (int) (newDistance * 100) % 100; // store decimals in int
 	std::string km = std::to_string((int) newDistance); // store whole number
@@ -534,6 +560,16 @@ std::string CommonFunctions::formatDistance(long distance) {
 	for (int i = size(km) - 1; i >= 0; i--) { // iterate through all digits in whole number
 		out = km[i] + out;
 		if (!((size(km) - i) % 3) && i > 0) out = "," + out; // after every third digit insert a comma
+	}
+	return out;
+}
+
+std::string CommonFunctions::formatPrice(float price) {
+	std::string rounded = std::to_string((int) round(price * 100));
+	std::string out;
+	for (int i = 0; i < size(rounded); i++) {
+		if (i == size(rounded) - 2) out += '.';
+		out += rounded[i];
 	}
 	return out;
 }
