@@ -30,7 +30,7 @@ int main() {
     Menu::iniLoginMenu(); // wait for user login
     
     Settings::setQuit(false); // starts lifespan of program
-    CommonFunctions::centerGraphicLineAnim2(Graphics::get("main"), 20); //animation
+    CommonFunctions::centerGraphicLineAnim(Graphics::get("main"), 20); //animation
     while (!Settings::getQuit()) { // program loop
         Menu::mainMenu(); // main menu
     }
